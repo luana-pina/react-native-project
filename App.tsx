@@ -24,7 +24,9 @@ export default function App() {
   const Drawer = createDrawerNavigator();
   const Stack = createStackNavigator();
 
-  const DrawerNavigation: React.FunctionComponent<IStackScreenProps> = () => (
+  const DrawerNavigation: React.FunctionComponent<IStackScreenProps> = ({
+    navigation,
+  }) => (
     <Drawer.Navigator
       screenOptions={{
         headerStyle: styles.header,
@@ -40,7 +42,11 @@ export default function App() {
           <View>
             <DrawerItemList {...props} />
           </View>
-          <LogoutItem />
+          <LogoutItem
+            onPress={() => {
+              navigation.navigate("Login");
+            }}
+          />
         </View>
       )}
     >

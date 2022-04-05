@@ -1,12 +1,20 @@
 import { StyleSheet, Text, View } from "react-native";
-import Layout from "../../../components/Layout/Layout";
+import Base from "../../../components/Base/Base";
+import AuthLayout from "../../../components/Layout/AuthLayout";
 import { IStackScreenProps } from "../../shared/interfaces/NavigationProps";
 
-const Register: React.FunctionComponent<IStackScreenProps> = () => {
+const Register: React.FunctionComponent<IStackScreenProps> = ({
+  navigation,
+}) => {
   return (
-    <Layout>
-      <Text>Register page</Text>
-    </Layout>
+    <Base>
+      <AuthLayout
+        title="Registration"
+        onPress={() => {
+          navigation.goBack();
+        }}
+      ></AuthLayout>
+    </Base>
   );
 };
 

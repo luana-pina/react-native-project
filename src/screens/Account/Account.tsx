@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
-import Layout from "../../../components/Layout/Layout";
+import Base from "../../../components/Base/Base";
 
 const Account: React.FC = () => {
   return (
-    <Layout>
+    <Base>
       <Text>Account page</Text>
-    </Layout>
+    </Base>
   );
 };
 

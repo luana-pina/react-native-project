@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
-import Layout from "../../../components/Layout/Layout";
+import Base from "../../../components/Base/Base";
 
 const Home: React.FC = () => {
   return (
-    <Layout>
+    <Base>
       <Text>Home page</Text>
-    </Layout>
+    </Base>
   );
 };
 

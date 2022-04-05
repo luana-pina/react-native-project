@@ -1,34 +1,18 @@
-import { ParamListBase, useNavigation } from "@react-navigation/native";
-import { StackScreenProps } from "@react-navigation/stack";
-import { Button, StyleSheet, Text, View } from "react-native";
-import Layout from "../../../components/Layout/Layout";
+import Base from "../../../components/Base/Base";
+import AuthLayout from "../../../components/Layout/AuthLayout";
 import { IStackScreenProps } from "../../shared/interfaces/NavigationProps";
 
-const Login: React.FunctionComponent<IStackScreenProps> = (props) => {
-  const navigate = useNavigation();
-
+const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
   return (
-    <Layout>
-      <Text>Login page</Text>
-      <Button
-        title="Register"
+    <Base>
+      <AuthLayout
+        title="Authentication"
         onPress={() => {
-          props.navigation.navigate("Register");
+          navigation.navigate("Register");
         }}
-      />
-      <Button
-        title="Change"
-        onPress={() => {
-          props.navigation.navigate("ChangePassword");
-        }}
-      />
-      <Button
-        title="Drawer"
-        onPress={() => {
-          props.navigation.navigate("Drawer");
-        }}
-      />
-    </Layout>
+        noBack={true}
+      ></AuthLayout>
+    </Base>
   );
 };
 
