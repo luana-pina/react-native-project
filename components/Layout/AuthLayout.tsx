@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
   },
   logoContainer: {
     alignItems: "center",
@@ -56,7 +57,6 @@ const styles = StyleSheet.create({
   },
   pageContainer: {
     alignItems: "center",
-    maxHeight: "70%",
   },
   font: {
     fontStyle: "italic",

@@ -90,7 +90,7 @@ export default function App() {
     <>
       <StatusBar style="dark" />
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Login">
             {(props) => <Login {...props} />}
           </Stack.Screen>
@@ -100,7 +100,7 @@ export default function App() {
           <Stack.Screen name="ChangePassword">
             {(props) => <ChangePassword {...props} />}
           </Stack.Screen>
-          <Stack.Screen name="Drawer" options={{ headerShown: false }}>
+          <Stack.Screen name="Drawer">
             {(props) => <DrawerNavigation {...props} />}
           </Stack.Screen>
         </Stack.Navigator>

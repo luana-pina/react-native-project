@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   container: {
     elevation: 4,
     alignItems: "center",
-    padding: 10,
+    paddingVertical: 15,
     minWidth: 150,
     minHeight: 50,
     shadowColor: "black",
