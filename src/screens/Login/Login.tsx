@@ -50,7 +50,7 @@ const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
           <View style={styles.forgotContainer}>
             <Pressable
               onPress={() => {
-                navigation.navigate("ChangePassword");
+                navigation.navigate("ResetPassword");
               }}
             >
               <Text style={styles.forgotText}>I forgot my password</Text>
@@ -67,7 +67,7 @@ export default Login;
 
 const styles = StyleSheet.create({
   container: {
-    width: 220,
+    width: 250,
     alignItems: "center",
   },
   forgotContainer: {

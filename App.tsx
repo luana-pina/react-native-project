@@ -16,6 +16,7 @@ import {
   Login,
   ChangePassword,
   Register,
+  ResetPassword,
 } from "./src/screens";
 import { createStackNavigator } from "@react-navigation/stack";
 import { IStackScreenProps } from "./src/shared/interfaces/NavigationProps";
@@ -96,6 +97,9 @@ export default function App() {
           </Stack.Screen>
           <Stack.Screen name="Register">
             {(props) => <Register {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="ResetPassword">
+            {(props) => <ResetPassword {...props} />}
           </Stack.Screen>
           <Stack.Screen name="ChangePassword">
             {(props) => <ChangePassword {...props} />}

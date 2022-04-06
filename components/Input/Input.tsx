@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     color: Colors.gray800,
     fontWeight: "bold",
     marginRight: 8,
+    maxWidth: 70,
   },
   labelInvalid: {
     color: Colors.error500,
