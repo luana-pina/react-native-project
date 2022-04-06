@@ -10,4 +10,7 @@ export const Colors = {
   gray700: "#868686",
   gray600: "#888888",
   grayBlue: "#ADC0C4",
+  error500: "#831d1c",
+  error400: "#FF0000",
+  error100: "#FFb4bf",
 };
