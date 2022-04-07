@@ -23,7 +23,6 @@ const GameButton: React.FunctionComponent<{
   }
 
   useEffect(() => {
-    console.log(game.color);
     if (!gamePage) {
       if (isPressed) {
         setPressStyle({
@@ -61,6 +60,8 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderRadius: 50,
     justifyContent: "center",
+    margin: 10,
+    marginTop: 5,
   },
   buttonText: {
     fontSize: 15,

@@ -14,7 +14,6 @@ const GamesButtons: React.FunctionComponent<{
   gamePage?: boolean;
 }> = ({ onPress, gamePage }) => {
   const renderButton = (itemData: any) => {
-    console.log(itemData);
     return <GameButton game={itemData.item} onPress={onPress} />;
   };
 
@@ -24,6 +23,7 @@ const GamesButtons: React.FunctionComponent<{
       keyExtractor={(item) => String(item.id)}
       renderItem={renderButton}
       numColumns={3}
+      scrollEnabled={false}
     />
   );
 };

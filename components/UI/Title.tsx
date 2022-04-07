@@ -5,9 +5,17 @@ const Title: React.FunctionComponent<{
   text: string;
   size?: number;
   style?: Object;
-}> = ({ text, size, style }) => {
+  color?: string;
+}> = ({ text, size, style, color }) => {
   return (
-    <Text style={[styles.title, { fontSize: size ? size : 25 }, style]}>
+    <Text
+      style={[
+        styles.title,
+        { fontSize: size ? size : 25 },
+        style,
+        { color: color ? color : Colors.gray800 },
+      ]}
+    >
       {text}
     </Text>
   );
@@ -19,6 +27,5 @@ const styles = StyleSheet.create({
   title: {
     fontStyle: "italic",
     fontWeight: "bold",
-    color: Colors.gray800,
   },
 });
