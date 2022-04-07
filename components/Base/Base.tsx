@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#F7F7F7",
   },
   pageContainer: {
-    alignItems: "center",
-    paddingVertical: "20%",
+    paddingVertical: 20,
+    paddingHorizontal: 20,
   },
 });
 

@@ -2,6 +2,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../../src/shared/constants/colors";
 import { AntDesign } from "@expo/vector-icons";
 import Card from "../UI/Card";
+import Title from "../UI/Title";
 
 const AuthLayout: React.FunctionComponent<{
   title: string;
@@ -18,7 +19,7 @@ const AuthLayout: React.FunctionComponent<{
         <Text style={[styles.bottomText, styles.font]}>LOTTERY</Text>
       </View>
       <View style={styles.bottomContainer}>
-        <Text style={[styles.title, styles.font]}>{title}</Text>
+        <Title text={title} />
         <View style={styles.pageContainer}>
           <Card>{children}</Card>
         </View>
@@ -27,9 +28,10 @@ const AuthLayout: React.FunctionComponent<{
             {!noBack && (
               <AntDesign name="arrowleft" size={28} color={Colors.gray800} />
             )}
-            <Text style={[styles.title, styles.font, styles.buttonText]}>
-              {!noBack ? "Back" : "Sign Up"}
-            </Text>
+            <Title
+              style={styles.buttonText}
+              text={!noBack ? "Back" : "Sign Up"}
+            />
             {noBack && (
               <AntDesign name="arrowright" size={28} color={Colors.gray800} />
             )}
@@ -47,6 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    paddingVertical: "20%",
   },
   logoContainer: {
     alignItems: "center",
@@ -87,10 +90,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     color: Colors.white,
-  },
-  title: {
-    fontSize: 25,
-    color: Colors.gray800,
   },
   buttonText: {
     paddingHorizontal: 5,
