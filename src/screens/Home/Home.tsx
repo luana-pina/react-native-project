@@ -84,5 +84,6 @@ const styles = StyleSheet.create({
   },
   betsContainer: {
     paddingHorizontal: 10,
+    paddingTop: 30
   },
 });

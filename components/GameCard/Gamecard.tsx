@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   cardContent: {
-    padding: 10,
+    paddingVertical: 5,
+    paddingLeft: 10,
     borderLeftWidth: 4,
     borderRadius: 4,
     maxWidth: 300,
