@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   KeyboardTypeOptions,
   StyleSheet,
@@ -11,10 +12,13 @@ const Input: React.FunctionComponent<{
   label: string;
   keyboardType?: KeyboardTypeOptions;
   secure?: boolean;
-  onUpdateValue: (text: string) => void;
+  onUpdateValue: (e: string) => void;
   value: string;
-  isInvalid: boolean;
+  isInvalid?: boolean;
   noPaddingTop?: boolean;
+  labelSize?: number;
+  inputTextSize?: number;
+  disabled?: boolean;
 }> = ({
   label,
   keyboardType,
@@ -23,7 +27,11 @@ const Input: React.FunctionComponent<{
   value,
   isInvalid,
   noPaddingTop,
+  labelSize,
+  inputTextSize,
+  disabled,
 }) => {
+  const [currentValue, setCurrentValue] = useState<string>(`${value}`);
   return (
     <View
       style={
@@ -32,16 +40,28 @@ const Input: React.FunctionComponent<{
           : [styles.inputContainer, { paddingTop: 15 }]
       }
     >
-      <Text style={[styles.label, isInvalid && styles.labelInvalid]}>
+      <Text
+        style={[
+          styles.label,
+          isInvalid && styles.labelInvalid,
+          labelSize ? { fontSize: labelSize } : {},
+        ]}
+      >
         {label}
       </Text>
       <TextInput
-        style={[styles.input, isInvalid && styles.inputInvalid]}
+        style={[
+          styles.input,
+          isInvalid && styles.inputInvalid,
+          { fontSize: inputTextSize ? inputTextSize : 16 },
+        ]}
         autoCapitalize="none"
         keyboardType={keyboardType}
         secureTextEntry={secure}
-        onChangeText={onUpdateValue}
-        value={value}
+        onChangeText={(v) => setCurrentValue(v)}
+        onEndEditing={() => onUpdateValue(currentValue)}
+        value={currentValue}
+        editable={!disabled}
       />
     </View>
   );
@@ -70,8 +90,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    backgroundColor: "transparent",
-    fontSize: 16,
+    color: Colors.gray800,
   },
   inputInvalid: {
     backgroundColor: Colors.error100,
