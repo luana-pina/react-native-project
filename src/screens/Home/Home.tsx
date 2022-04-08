@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
   filtersTitle: {
     color: Colors.gray600,
     marginTop: 20,
-    marginLeft: 15,
   },
   titleContainer: {
     marginTop: 10,
@@ -84,6 +83,6 @@ const styles = StyleSheet.create({
   },
   betsContainer: {
     paddingHorizontal: 10,
-    paddingTop: 30
+    paddingTop: 30,
   },
 });

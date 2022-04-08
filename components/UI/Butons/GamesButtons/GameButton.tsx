@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderRadius: 50,
     justifyContent: "center",
-    margin: 10,
+    marginRight: 20,
     marginTop: 5,
   },
   buttonText: {
