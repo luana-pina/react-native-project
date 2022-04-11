@@ -1,29 +1,22 @@
-import {
-  FlatListProps,
-  ListRenderItem,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import Base from "../../../components/Base/Base";
 import GamesButtons from "../../../components/UI/Butons/GamesButtons/GamesButtons";
 import Title from "../../../components/UI/Title";
 import { AntDesign } from "@expo/vector-icons";
 import { Colors } from "../../shared/constants/colors";
 import { IDrawerScreenProps } from "../../shared/interfaces/NavigationProps";
-import {
-  ICardGame,
-  ICardGameAccount,
-  ICardGameCart,
-} from "../../shared/interfaces/Games";
 import GameCard from "../../../components/GameCard/Gamecard";
 import { FlatList } from "react-native-gesture-handler";
-import { DUMMY_BETS } from "../../shared/providers/data";
+import { DUMMY_BETS, DUMMY_DATA } from "../../shared/providers/data";
 import { stringToArray } from "../../shared/utils/stringToArray";
 import { convertDate } from "../../shared/utils/convertData";
+import { useLayoutEffect } from "react";
+import { gamesActions } from "../../shared/store";
+import { useDispatch } from "react-redux";
 
 const Home: React.FC<IDrawerScreenProps> = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   function gameCardRender(itemData: any) {
     const convertFormat = {
       ...itemData.item,
@@ -37,6 +30,15 @@ const Home: React.FC<IDrawerScreenProps> = ({ navigation }) => {
       />
     );
   }
+
+  useLayoutEffect(() => {
+    dispatch(
+      gamesActions.getSelectedGame({
+        requestData: DUMMY_DATA.types,
+        gameId: DUMMY_DATA.types[0].id,
+      })
+    );
+  }, []);
 
   return (
     <Base>

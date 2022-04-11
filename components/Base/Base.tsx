@@ -9,7 +9,10 @@ const Base: React.FC = ({ children }) => {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       contentContainerStyle={styles.keyboardContainer}
     >
-      <ScrollView contentContainerStyle={styles.pageContainer}>
+      <ScrollView
+        contentContainerStyle={styles.pageContainer}
+        style={styles.container}
+      >
         {children}
       </ScrollView>
     </KeyboardAvoidingView>

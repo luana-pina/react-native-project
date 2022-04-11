@@ -20,6 +20,8 @@ import {
 } from "./src/screens";
 import { createStackNavigator } from "@react-navigation/stack";
 import { IStackScreenProps } from "./src/shared/interfaces/NavigationProps";
+import { Provider } from "react-redux";
+import store from "./src/shared/store";
 
 export default function App() {
   const Drawer = createDrawerNavigator();
@@ -90,25 +92,27 @@ export default function App() {
   return (
     <>
       <StatusBar style="dark" />
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Login">
-            {(props) => <Login {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="Register">
-            {(props) => <Register {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="ResetPassword">
-            {(props) => <ResetPassword {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="ChangePassword">
-            {(props) => <ChangePassword {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="Drawer">
-            {(props) => <DrawerNavigation {...props} />}
-          </Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Login">
+              {(props) => <Login {...props} />}
+            </Stack.Screen>
+            <Stack.Screen name="Register">
+              {(props) => <Register {...props} />}
+            </Stack.Screen>
+            <Stack.Screen name="ResetPassword">
+              {(props) => <ResetPassword {...props} />}
+            </Stack.Screen>
+            <Stack.Screen name="ChangePassword">
+              {(props) => <ChangePassword {...props} />}
+            </Stack.Screen>
+            <Stack.Screen name="Drawer">
+              {(props) => <DrawerNavigation {...props} />}
+            </Stack.Screen>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     </>
   );
 }
