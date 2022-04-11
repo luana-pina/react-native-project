@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
+import { useSelector } from "react-redux";
+import { IRootState } from "../../../../src/shared/interfaces";
 import { IGame } from "../../../../src/shared/interfaces/Games";
 
 const GameButton: React.FunctionComponent<{
@@ -16,10 +18,13 @@ const GameButton: React.FunctionComponent<{
     container: { backgroundColor: Colors.white, borderColor: game.color },
   });
   const [isPressed, setIsPressed] = useState<boolean>(false);
+  const gameSelectedId = useSelector(
+    (state: IRootState) => state.games.gameSelected.id
+  );
 
   function pressHandler() {
     setIsPressed(!isPressed);
-    onPress();
+    onPress(game.id);
   }
 
   useEffect(() => {
@@ -35,31 +40,51 @@ const GameButton: React.FunctionComponent<{
           container: { backgroundColor: Colors.white, borderColor: game.color },
         });
       }
+    } else {
+      if (gameSelectedId === game.id) {
+        setPressStyle({
+          text: { color: Colors.white },
+          container: { backgroundColor: game.color, borderColor: game.color },
+        });
+      } else {
+        setPressStyle({
+          text: { color: game.color },
+          container: { backgroundColor: Colors.white, borderColor: game.color },
+        });
+      }
     }
   }, [isPressed]);
 
   return (
-    <Pressable
-      onPress={() => {
-        pressHandler();
-      }}
-    >
-      <View style={[styles.buttonContainer, pressStyle.container]}>
-        <Text style={[styles.buttonText, pressStyle.text]}>{game.type}</Text>
-      </View>
-    </Pressable>
+    <View style={[styles.buttonContainer, pressStyle.container]}>
+      <Pressable
+        onPress={() => {
+          pressHandler();
+        }}
+        android_ripple={{ color: game.color }}
+        style={({ pressed }) => (pressed ? { opacity: 0.5 } : {})}
+      >
+        <View style={styles.container}>
+          <Text style={[styles.buttonText, pressStyle.text]}>{game.type}</Text>
+        </View>
+      </Pressable>
+    </View>
   );
 };
 
 export default GameButton;
 
 const styles = StyleSheet.create({
-  buttonContainer: {
+  container: {
     width: 100,
     height: 35,
-    borderWidth: 3,
-    borderRadius: 50,
     justifyContent: "center",
+    borderRadius: 50,
+  },
+  buttonContainer: {
+    borderWidth: 3,
+    overflow: "hidden",
+    borderRadius: 50,
     marginRight: 20,
     marginTop: 5,
   },

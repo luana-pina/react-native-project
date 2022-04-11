@@ -1,16 +1,20 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Colors } from "../../src/shared/constants/colors";
 
 const GameTableButton: React.FunctionComponent<{
   text: string;
   onPress: () => void;
-  isSelected?: boolean;
-}> = ({ text, onPress, isSelected }) => {
+  isSelected?: boolean | { isSelected: boolean; index: number };
+  color?: string;
+}> = ({ text, onPress, isSelected, color }) => {
   return (
     <Pressable onPress={onPress}>
       <View
-        style={[styles.buttonContainer, isSelected && styles.isFilledContent]}
+        style={[
+          styles.buttonContainer,
+          { backgroundColor: isSelected ? color : Colors.grayBlue },
+        ]}
       >
         <Text style={styles.buttonText}>{text}</Text>
       </View>
@@ -24,23 +28,16 @@ const styles = StyleSheet.create({
   buttonContainer: {
     alignItems: "center",
     justifyContent: "center",
-    borderColor: Colors.green500,
-    borderWidth: 2,
-    width: 50,
-    height: 50,
-    borderRadius: 8,
-    paddingHorizontal: 8,
+    width: 55,
+    height: 55,
+    borderRadius: 50,
+    margin: 3,
   },
   buttonText: {
-    fontSize: 13,
+    fontSize: 16,
     paddingHorizontal: 5,
     fontStyle: "italic",
     fontWeight: "bold",
-  },
-  isFilledContent: {
-    backgroundColor: Colors.green500,
-  },
-  isFilledText: {
     color: Colors.white,
   },
 });
