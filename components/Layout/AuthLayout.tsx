@@ -3,6 +3,7 @@ import { Colors } from "../../src/shared/constants/colors";
 import { AntDesign } from "@expo/vector-icons";
 import Card from "../UI/Card";
 import Title from "../UI/Title";
+import PressableFeedback from "../PressableFeedback";
 
 const AuthLayout: React.FunctionComponent<{
   title: string;
@@ -23,7 +24,7 @@ const AuthLayout: React.FunctionComponent<{
         <View style={styles.pageContainer}>
           <Card>{children}</Card>
         </View>
-        <Pressable onPress={onPress}>
+        <PressableFeedback onPress={onPress}>
           <View style={styles.buttonContainer}>
             {!noBack && (
               <AntDesign name="arrowleft" size={28} color={Colors.gray800} />
@@ -36,7 +37,7 @@ const AuthLayout: React.FunctionComponent<{
               <AntDesign name="arrowright" size={28} color={Colors.gray800} />
             )}
           </View>
-        </Pressable>
+        </PressableFeedback>
       </View>
     </View>
   );

@@ -1,6 +1,7 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Colors } from "../../../src/shared/constants/colors";
 import React from "react";
+import PressableFeedback from "../../PressableFeedback";
 
 const ActionsButton: React.FunctionComponent<{
   text: string;
@@ -8,24 +9,28 @@ const ActionsButton: React.FunctionComponent<{
   filledBackground?: boolean;
 }> = ({ text, onPress, children, filledBackground }) => {
   return (
-    <Pressable onPress={onPress}>
-      <View
-        style={[
-          styles.buttonContainer,
-          filledBackground && styles.isFilledContent,
-        ]}
-      >
-        {children}
-        <Text
+    <View style={{ borderRadius: 8, overflow: "hidden" }}>
+      <PressableFeedback color={Colors.green500} onPress={onPress}>
+        <View
           style={[
-            styles.buttonText,
-            filledBackground ? styles.isFilledText : { color: Colors.green500 },
+            styles.buttonContainer,
+            filledBackground && styles.isFilledContent,
           ]}
         >
-          {text}
-        </Text>
-      </View>
-    </Pressable>
+          {children}
+          <Text
+            style={[
+              styles.buttonText,
+              filledBackground
+                ? styles.isFilledText
+                : { color: Colors.green500 },
+            ]}
+          >
+            {text}
+          </Text>
+        </View>
+      </PressableFeedback>
+    </View>
   );
 };
 

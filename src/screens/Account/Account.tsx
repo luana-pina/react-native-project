@@ -1,13 +1,4 @@
-import {
-  FlatList,
-  Image,
-  NativeSyntheticEvent,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInputEndEditingEventData,
-  View,
-} from "react-native";
+import { FlatList, Image, StyleSheet, View } from "react-native";
 import Base from "../../../components/Base/Base";
 import Card from "../../../components/UI/Card";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -15,11 +6,10 @@ import { Colors } from "../../shared/constants/colors";
 import Input from "../../../components/Input/Input";
 import { useState } from "react";
 import { DUMMY_BETS } from "../../shared/providers/data";
-import { stringToArray } from "../../shared/utils/stringToArray";
-import GameCard from "../../../components/GameCard/Gamecard";
-import { convertDate } from "../../shared/utils/convertData";
 import { ScrollView } from "react-native-gesture-handler";
 import Title from "../../../components/UI/Title";
+import PressableFeedback from "../../../components/PressableFeedback";
+import { gameCardRender } from "../../shared/utils/gameCartRender";
 
 const Account: React.FC = () => {
   const [userName, setUserName] = useState("Luana Pina");
@@ -27,49 +17,35 @@ const Account: React.FC = () => {
   const [isInvalid, setIsInvalid] = useState<boolean>(false);
   const [isdisabled, setIsdisabled] = useState<boolean>(true);
 
-  function gameCardRender(itemData: any) {
-    const convertFormat = {
-      ...itemData.item,
-      choosen_numbers: stringToArray(itemData.item.choosen_numbers),
-    };
-    return (
-      <GameCard
-        item={convertFormat}
-        key={itemData.item.id}
-        createAt={convertDate(itemData.item.created_at)}
-      />
-    );
-  }
-
   return (
     <Base>
       <Card>
         <View style={styles.editIconContainer}>
           {isdisabled ? (
-            <Pressable onPress={() => setIsdisabled(false)}>
+            <PressableFeedback onPress={() => setIsdisabled(false)}>
               <MaterialCommunityIcons
                 name="account-edit-outline"
                 size={24}
                 color={Colors.gray700}
               />
-            </Pressable>
+            </PressableFeedback>
           ) : (
             <>
-              <Pressable onPress={() => setIsdisabled(true)}>
+              <PressableFeedback onPress={() => setIsdisabled(true)}>
                 <MaterialCommunityIcons
                   name="cancel"
                   size={24}
                   color={Colors.error500}
                 />
-              </Pressable>
-              <Pressable onPress={() => setIsdisabled(true)}>
+              </PressableFeedback>
+              <PressableFeedback onPress={() => setIsdisabled(true)}>
                 <MaterialCommunityIcons
                   name="content-save-edit-outline"
                   size={24}
                   color={Colors.green500}
                   style={{ marginLeft: 10 }}
                 />
-              </Pressable>
+              </PressableFeedback>
             </>
           )}
         </View>
@@ -84,7 +60,7 @@ const Account: React.FC = () => {
             label="Name:"
             value={userName}
             isInvalid={isInvalid}
-            onUpdateValue={(e) => console.log(e)}
+            onUpdateValue={(e) => setUserName(String(e))}
             labelSize={17}
             disabled={isdisabled}
           />

@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import Base from "../../../components/Base/Base";
 import Input from "../../../components/Input/Input";
 import AuthLayout from "../../../components/Layout/AuthLayout";
+import PressableFeedback from "../../../components/PressableFeedback";
 import AuthButton from "../../../components/UI/Butons/AuthButton";
 import { Colors } from "../../shared/constants/colors";
 import { IStackScreenProps } from "../../shared/interfaces/NavigationProps";
@@ -48,13 +49,13 @@ const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
             }}
           />
           <View style={styles.forgotContainer}>
-            <Pressable
+            <PressableFeedback
               onPress={() => {
                 navigation.navigate("ResetPassword");
               }}
             >
               <Text style={styles.forgotText}>I forgot my password</Text>
-            </Pressable>
+            </PressableFeedback>
           </View>
           <AuthButton text="Log In" onPress={loginHandler} />
         </View>
