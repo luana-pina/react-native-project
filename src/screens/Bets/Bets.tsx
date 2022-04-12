@@ -1,4 +1,4 @@
-import { Alert, Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { Modal, StyleSheet, Text, View } from "react-native";
 import Base from "../../../components/Base/Base";
 import GamesButtons from "../../../components/UI/Butons/GamesButtons/GamesButtons";
 import Title from "../../../components/UI/Title";
@@ -8,11 +8,13 @@ import GameTable from "../../../components/GameTable/GameTable";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { gamesActions } from "../../shared/store";
-import { IRootState } from "../../shared/interfaces";
+import { IDrawerScreenProps, IRootState } from "../../shared/interfaces";
 import GamesActions from "../../../components/GamesActions/GamesActions";
 import { useState } from "react";
+import PressableFeedback from "../../../components/PressableFeedback";
+import Cart from "../../../components/Cart/Cart";
 
-const Bets: React.FC = () => {
+const Bets: React.FC<IDrawerScreenProps> = ({ navigation }) => {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
   const game = useSelector((state: IRootState) => state.games.gameSelected);
   const dispatch = useDispatch();
@@ -25,20 +27,16 @@ const Bets: React.FC = () => {
       })
     );
   }
+  function onSave() {
+    setModalIsVisible(false);
+    navigation.navigate("Home");
+  }
 
   return (
     <>
-      <Modal visible={modalIsVisible}>
+      <Modal visible={modalIsVisible} transparent animationType="slide">
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalIsVisible(!modalIsVisible)}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
-          </View>
+          <Cart onClose={() => setModalIsVisible(false)} onSave={onSave} />
         </View>
       </Modal>
       <Base>
@@ -47,8 +45,7 @@ const Bets: React.FC = () => {
             <Title text="NEW BET" size={22} />
             <Text style={styles.title}>FOR {game?.type.toUpperCase()}</Text>
           </View>
-          <Pressable
-            android_ripple={{ color: Colors.background700 }}
+          <PressableFeedback
             onPress={() => {
               setModalIsVisible(true);
             }}
@@ -58,7 +55,7 @@ const Bets: React.FC = () => {
               size={25}
               color={Colors.green500}
             />
-          </Pressable>
+          </PressableFeedback>
         </View>
         <Text style={styles.subtitle}>Choose a game</Text>
         <GamesButtons onPress={gameSelectHandler} gamePage />
@@ -104,40 +101,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
   },
 });

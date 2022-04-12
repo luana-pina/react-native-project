@@ -9,6 +9,7 @@ import { Colors } from "../../src/shared/constants/colors";
 import { useEffect, useState } from "react";
 import { DUMMY_DATA } from "../../src/shared/providers/data";
 import { convertToReal } from "../../src/shared/utils/convertToReal";
+import PressableFeedback from "../PressableFeedback";
 
 const GameCard: React.FunctionComponent<{
   item: ICardGame | ICardGameCart | ICardGameAccount;
@@ -34,9 +35,14 @@ const GameCard: React.FunctionComponent<{
   return (
     <View style={styles.cardWrapper}>
       {canDelete && (
-        <Pressable onPress={() => {}}>
-          <Ionicons name="trash-outline" size={24} color={Colors.gray800} />
-        </Pressable>
+        <PressableFeedback onPress={() => {}}>
+          <Ionicons
+            name="trash-outline"
+            size={24}
+            color={Colors.gray800}
+            style={{ marginRight: 5 }}
+          />
+        </PressableFeedback>
       )}
       <View style={[styles.cardContent, { borderLeftColor: color }]}>
         <Text style={styles.selectedNumbers}>
@@ -46,11 +52,14 @@ const GameCard: React.FunctionComponent<{
           style={[
             styles.infoCardContainer,
             { flexDirection: canDelete ? "row" : "column-reverse" },
+            canDelete && { alignItems: "baseline" },
           ]}
         >
           <Text style={[styles.gameName, { color: color }]}>{gameName}</Text>
 
-          <Text style={styles.price}>
+          <Text
+            style={canDelete ? [styles.price, { marginLeft: 5 }] : styles.price}
+          >
             {canDelete
               ? `R$${convertToReal(item.price)}`
               : `${createAt} - (R$${convertToReal(item.price)})`}
@@ -72,13 +81,13 @@ const styles = StyleSheet.create({
   },
   cardContent: {
     paddingVertical: 5,
-    paddingLeft: 10,
+    paddingLeft: 8,
     borderLeftWidth: 4,
     borderRadius: 4,
     maxWidth: 300,
   },
   selectedNumbers: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     fontStyle: "italic",
     color: Colors.gray700,
@@ -89,7 +98,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   gameName: { fontWeight: "bold", fontStyle: "italic" },
-  priceCanDelete: {},
   price: {
     fontSize: 12,
     fontStyle: "italic",
