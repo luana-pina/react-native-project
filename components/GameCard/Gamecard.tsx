@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import {
   ICardGame,
   ICardGameAccount,
@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { DUMMY_DATA } from "../../src/shared/providers/data";
 import { convertToReal } from "../../src/shared/utils/convertToReal";
 import PressableFeedback from "../PressableFeedback";
+import { useDispatch } from "react-redux";
+import { cartActions } from "../../src/shared/store";
 
 const GameCard: React.FunctionComponent<{
   item: ICardGame | ICardGameCart | ICardGameAccount;
@@ -19,6 +21,7 @@ const GameCard: React.FunctionComponent<{
   const orderlyArray = [...item.choosen_numbers];
   const [color, setColor] = useState<string>(Colors.gray800);
   const [gameName, setGameName] = useState<string>("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     function getCardColor() {
@@ -32,10 +35,42 @@ const GameCard: React.FunctionComponent<{
     getCardColor();
   }, [item]);
 
+  function onDelete(id: number) {
+    Alert.alert(
+      "Are you sure?",
+      "Once you delete a game, there is no going back. Please be certain.",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {},
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: () => {
+            dispatch(cartActions.removeCardToCart({ cardId: id }));
+          },
+          style: "default",
+        },
+      ],
+      {
+        cancelable: true,
+        onDismiss: () =>
+          Alert.alert(
+            "This alert was dismissed by tapping outside of the alert dialog."
+          ),
+      }
+    );
+  }
+
   return (
     <View style={styles.cardWrapper}>
       {canDelete && (
-        <PressableFeedback onPress={() => {}}>
+        <PressableFeedback
+          onPress={() => {
+            onDelete(item.id);
+          }}
+        >
           <Ionicons
             name="trash-outline"
             size={24}

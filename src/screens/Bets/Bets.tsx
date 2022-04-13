@@ -7,17 +7,22 @@ import { DUMMY_DATA } from "../../shared/providers/data";
 import GameTable from "../../../components/GameTable/GameTable";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { gamesActions } from "../../shared/store";
+import { cardGameActions, gamesActions } from "../../shared/store";
 import { IDrawerScreenProps, IRootState } from "../../shared/interfaces";
 import GamesActions from "../../../components/GamesActions/GamesActions";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import PressableFeedback from "../../../components/PressableFeedback";
 import Cart from "../../../components/Cart/Cart";
 
 const Bets: React.FC<IDrawerScreenProps> = ({ navigation }) => {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
   const game = useSelector((state: IRootState) => state.games.gameSelected);
+  const cartItems = useSelector((state: IRootState) => state.cart.cardGames);
   const dispatch = useDispatch();
+
+  useLayoutEffect(() => {
+    gameSelectHandler(DUMMY_DATA.types[0].id);
+  }, []);
 
   function gameSelectHandler(id: number) {
     dispatch(
@@ -50,10 +55,18 @@ const Bets: React.FC<IDrawerScreenProps> = ({ navigation }) => {
               setModalIsVisible(true);
             }}
           >
+            {cartItems.length > 0 && (
+              <View style={styles.cartItemsNumberView}>
+                <Text style={styles.cartItemsNumberText}>
+                  {cartItems.length}
+                </Text>
+              </View>
+            )}
             <MaterialCommunityIcons
               name="cart-outline"
               size={25}
               color={Colors.green500}
+              style={{ marginLeft: 7 }}
             />
           </PressableFeedback>
         </View>
@@ -62,7 +75,11 @@ const Bets: React.FC<IDrawerScreenProps> = ({ navigation }) => {
         <Text style={styles.subtitle}>Fill your bet</Text>
         <Text style={styles.description}>{game?.description}</Text>
         <GameTable />
-        <GamesActions range={game.range} maxNumber={game.max_number} />
+        <GamesActions
+          range={game.range}
+          maxNumber={game.max_number}
+          showModal={() => setModalIsVisible(true)}
+        />
       </Base>
     </>
   );
@@ -82,6 +99,20 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     color: Colors.gray800,
     marginLeft: 4,
+  },
+  cartItemsNumberText: {
+    fontSize: 10,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    color: Colors.white,
+  },
+  cartItemsNumberView: {
+    backgroundColor: Colors.green500,
+    borderRadius: 50,
+    width: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 15,
   },
   subtitle: {
     fontSize: 16,

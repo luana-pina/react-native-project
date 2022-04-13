@@ -26,6 +26,13 @@ const GameTable: React.FunctionComponent<{}> = () => {
               maxNumber: game.max_number,
             })
           );
+          dispatch(
+            cardGameActions.addCardInfo({
+              id: Math.floor(Math.random() * (99 - 1 + 1) + 1),
+              price: game?.price,
+              type: { type: game?.type, id: game?.id },
+            })
+          );
         }}
         text={String(item.text)}
         color={game.color}

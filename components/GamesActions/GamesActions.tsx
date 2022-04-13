@@ -4,15 +4,18 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../src/shared/interfaces";
-import { cardGameActions } from "../../src/shared/store";
+import { cardGameActions, cartActions } from "../../src/shared/store";
 
 const GamesActions: React.FunctionComponent<{
   range: number;
   maxNumber: number;
-}> = ({ range, maxNumber }) => {
+  showModal: Function;
+}> = ({ range, maxNumber, showModal }) => {
   const selectedNumbers: number[] = useSelector(
     (state: IRootState) => state.cardGame.card.choosen_numbers
   );
+  const card = useSelector((state: IRootState) => state.cardGame.card);
+  const game = useSelector((state: IRootState) => state.games.gameSelected);
   const dispatch = useDispatch();
 
   function completeGame() {
@@ -37,6 +40,13 @@ const GamesActions: React.FunctionComponent<{
         cont++;
       }
     }
+    dispatch(
+      cardGameActions.addCardInfo({
+        id: Math.floor(Math.random() * (99 - 1 + 1) + 1),
+        price: game?.price,
+        type: { type: game?.type, id: game?.id },
+      })
+    );
   }
 
   function clearGame() {
@@ -52,7 +62,9 @@ const GamesActions: React.FunctionComponent<{
         } more!`
       );
     } else {
+      dispatch(cartActions.addCardToCart(card));
       dispatch(cardGameActions.clearCard());
+      showModal();
     }
   }
 

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { DUMMY_BETS } from "../../src/shared/providers/data";
+import { SimpleLineIcons } from "@expo/vector-icons";
 import { gameCardRender } from "../../src/shared/utils/gameCartRender";
 import PressableFeedback from "../PressableFeedback";
 import AuthButton from "../UI/Butons/AuthButton";
@@ -8,11 +8,17 @@ import Card from "../UI/Card";
 import Title from "../UI/Title";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors } from "../../src/shared/constants/colors";
+import { useSelector } from "react-redux";
+import { IRootState } from "../../src/shared/interfaces";
+import { convertToReal } from "../../src/shared/utils/convertToReal";
 
 const Cart: React.FC<{ onClose: Function; onSave: Function }> = ({
   onClose,
   onSave,
 }) => {
+  const cartGames = useSelector((state: IRootState) => state.cart.cardGames);
+  const totalCart = useSelector((state: IRootState) => state.cart.totalAmound);
+
   return (
     <>
       <Card
@@ -33,16 +39,29 @@ const Cart: React.FC<{ onClose: Function; onSave: Function }> = ({
           </PressableFeedback>
           <Title text="CART" size={18} />
         </View>
-        <FlatList
-          listKey="cardBets"
-          data={DUMMY_BETS}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={(itemData) => gameCardRender(itemData, true)}
-          style={styles.betsContainer}
-        />
+        {cartGames.length > 0 ? (
+          <FlatList
+            listKey="cardBets"
+            data={cartGames}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={(itemData) => gameCardRender(itemData, true)}
+            style={styles.betsContainer}
+          />
+        ) : (
+          <View style={styles.noGamesView}>
+            <SimpleLineIcons
+              name="game-controller"
+              size={20}
+              color={Colors.gray600}
+            />
+            <Text style={styles.noGamesText}>You do not have games yet </Text>
+          </View>
+        )}
         <View style={{ flexDirection: "row", width: "100%" }}>
           <Title text="CART" size={18} />
-          <Text style={styles.totalCart}>TOTAL: R${"7,00"}</Text>
+          <Text style={styles.totalCart}>
+            TOTAL: R${convertToReal(totalCart)}
+          </Text>
         </View>
       </Card>
       <Card
@@ -89,6 +108,19 @@ const styles = StyleSheet.create({
   betsContainer: {
     marginVertical: 20,
     maxHeight: 300,
-    maxWidth: 255,
+    width: "100%",
+  },
+  noGamesView: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "baseline",
+    paddingVertical: 40,
+  },
+  noGamesText: {
+    fontSize: 14,
+    color: Colors.gray600,
+    fontStyle: "italic",
+    marginLeft: 10,
   },
 });
