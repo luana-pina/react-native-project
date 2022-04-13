@@ -3,20 +3,62 @@ import { StyleSheet, Text, View } from "react-native";
 import Base from "../../../components/Base/Base";
 import Input from "../../../components/Input/Input";
 import AuthLayout from "../../../components/Layout/AuthLayout";
-import PressableFeedback from "../../../components/PressableFeedback";
+import PressableFeedback from "../../../components/UI/PressableFeedback";
 import AuthButton from "../../../components/UI/Butons/AuthButton";
 import { Colors } from "../../shared/constants/colors";
 import { IStackScreenProps } from "../../shared/interfaces/NavigationProps";
+import { isValidInputs } from "../../shared/utils/isValidInpus";
 
 const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [enteredPassword, setEnteredPassword] = useState("");
+  const [enteredEmail, setEnteredEmail] = useState({
+    value: "",
+    isValid: true,
+    invalidText: "",
+  });
+  const [enteredPassword, setEnteredPassword] = useState({
+    value: "",
+    isValid: true,
+    invalidText: "",
+  });
 
   function loginHandler() {
-    console.log(enteredEmail, enteredPassword);
-    setEnteredEmail("");
-    setEnteredPassword("");
-    navigation.navigate("Drawer");
+    const validEmail = isValidInputs({
+      value: enteredEmail.value,
+      type: "email",
+    });
+    const validPassword = isValidInputs({
+      value: enteredPassword.value,
+      type: "password",
+    });
+
+    if (validEmail.isValid && validPassword.isValid) {
+      setEnteredEmail({
+        value: "",
+        isValid: true,
+        invalidText: "",
+      });
+      setEnteredPassword({
+        value: "",
+        isValid: true,
+        invalidText: "",
+      });
+      navigation.navigate("Drawer");
+    } else {
+      setEnteredEmail((curEmail) => {
+        return {
+          value: curEmail.value,
+          isValid: validEmail.isValid,
+          invalidText: validEmail.text,
+        };
+      });
+      setEnteredPassword((curPassword) => {
+        return {
+          value: curPassword.value,
+          isValid: validPassword.isValid,
+          invalidText: validPassword.text,
+        };
+      });
+    }
   }
 
   return (
@@ -31,21 +73,31 @@ const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
         <View style={styles.container}>
           <Input
             label="Email"
-            value={enteredEmail}
-            isInvalid={false}
+            value={enteredEmail.value}
+            isInvalid={!enteredEmail.isValid}
+            invalidText={enteredEmail.invalidText}
             keyboardType="email-address"
             onUpdateValue={(enteredValue: string) => {
-              setEnteredEmail(enteredValue);
+              setEnteredEmail({
+                value: enteredValue,
+                isValid: true,
+                invalidText: "",
+              });
             }}
             noPaddingTop
           />
           <Input
             label="Password"
-            value={enteredPassword}
+            value={enteredPassword.value}
             secure
-            isInvalid={false}
+            isInvalid={!enteredPassword.isValid}
+            invalidText={enteredPassword.invalidText}
             onUpdateValue={(enteredValue: string) => {
-              setEnteredPassword(enteredValue);
+              setEnteredPassword({
+                value: enteredValue,
+                isValid: true,
+                invalidText: "",
+              });
             }}
           />
           <View style={styles.forgotContainer}>
@@ -68,7 +120,7 @@ export default Login;
 
 const styles = StyleSheet.create({
   container: {
-    width: 250,
+    width: 300,
     alignItems: "center",
   },
   forgotContainer: {

@@ -8,14 +8,68 @@ import { useState } from "react";
 import { DUMMY_BETS } from "../../shared/providers/data";
 import { ScrollView } from "react-native-gesture-handler";
 import Title from "../../../components/UI/Title";
-import PressableFeedback from "../../../components/PressableFeedback";
+import PressableFeedback from "../../../components/UI/PressableFeedback";
 import { gameCardRender } from "../../shared/utils/gameCartRender";
+import { isValidInputs } from "../../shared/utils/isValidInpus";
 
 const Account: React.FC = () => {
-  const [userName, setUserName] = useState("Luana Pina");
-  const [userEmail, setUserEmail] = useState("luanagpina@gmail.com");
-  const [isInvalid, setIsInvalid] = useState<boolean>(false);
+  const [defaultValue, setDefaultValue] = useState({
+    name: "Luana Pina",
+    email: "luanagpina@gmail.com",
+  });
+  const [userName, setUserName] = useState({
+    value: defaultValue.name,
+    isValid: true,
+    invalidText: "",
+  });
+  const [userEmail, setUserEmail] = useState({
+    value: defaultValue.email,
+    isValid: true,
+    invalidText: "",
+  });
   const [isdisabled, setIsdisabled] = useState<boolean>(true);
+
+  function onSaveHandler() {
+    const isValidName = isValidInputs({ value: userName.value, type: "name" });
+    const isValidEmail = isValidInputs({
+      value: userEmail.value,
+      type: "email",
+    });
+
+    if (isValidEmail.isValid && isValidName.isValid) {
+      setDefaultValue({ name: userName.value, email: userEmail.value });
+      setIsdisabled(true);
+    } else {
+      setUserEmail((curEmail) => {
+        return {
+          value: curEmail.value,
+          isValid: isValidEmail.isValid,
+          invalidText: isValidEmail.text,
+        };
+      });
+      setUserName((curName) => {
+        return {
+          value: curName.value,
+          isValid: isValidName.isValid,
+          invalidText: isValidName.text,
+        };
+      });
+    }
+  }
+
+  function onCancelHandler() {
+    setUserEmail({
+      value: defaultValue.email,
+      isValid: true,
+      invalidText: "",
+    });
+    setUserName({
+      value: defaultValue.name,
+      isValid: true,
+      invalidText: "",
+    });
+    setIsdisabled(true);
+  }
 
   return (
     <Base>
@@ -31,14 +85,14 @@ const Account: React.FC = () => {
             </PressableFeedback>
           ) : (
             <>
-              <PressableFeedback onPress={() => setIsdisabled(true)}>
+              <PressableFeedback onPress={onCancelHandler}>
                 <MaterialCommunityIcons
                   name="cancel"
                   size={24}
                   color={Colors.error500}
                 />
               </PressableFeedback>
-              <PressableFeedback onPress={() => setIsdisabled(true)}>
+              <PressableFeedback onPress={onSaveHandler}>
                 <MaterialCommunityIcons
                   name="content-save-edit-outline"
                   size={24}
@@ -58,20 +112,36 @@ const Account: React.FC = () => {
         <View style={styles.inputsContainer}>
           <Input
             label="Name:"
-            value={userName}
-            isInvalid={isInvalid}
-            onUpdateValue={(e) => setUserName(String(e))}
+            value={userName.value}
+            isInvalid={!userName.isValid}
+            invalidText={userName.invalidText}
+            onUpdateValue={(e) =>
+              setUserName({
+                value: e,
+                isValid: true,
+                invalidText: "",
+              })
+            }
             labelSize={17}
             disabled={isdisabled}
+            bottomLine={!isdisabled}
           />
           <Input
             label="Email:"
-            value={userEmail}
-            isInvalid={false}
+            value={userEmail.value}
+            isInvalid={!userEmail.isValid}
+            invalidText={userEmail.invalidText}
             keyboardType="email-address"
-            onUpdateValue={(e) => setUserEmail(String(e))}
+            onUpdateValue={(e) =>
+              setUserEmail({
+                value: e,
+                isValid: true,
+                invalidText: "",
+              })
+            }
             labelSize={17}
             disabled={isdisabled}
+            bottomLine={!isdisabled}
           />
         </View>
         <Title text="Recent Games:" size={18} style={styles.betsTitle} />

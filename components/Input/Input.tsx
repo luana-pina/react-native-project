@@ -14,11 +14,13 @@ const Input: React.FunctionComponent<{
   secure?: boolean;
   onUpdateValue: (e: string) => void;
   value: string;
+  invalidText: string;
   isInvalid?: boolean;
   noPaddingTop?: boolean;
   labelSize?: number;
   inputTextSize?: number;
   disabled?: boolean;
+  bottomLine?: boolean;
 }> = ({
   label,
   keyboardType,
@@ -30,39 +32,50 @@ const Input: React.FunctionComponent<{
   labelSize,
   inputTextSize,
   disabled,
+  invalidText,
+  bottomLine,
 }) => {
   const [currentValue, setCurrentValue] = useState<string>(`${value}`);
+  const [onFocusStyle, setOnFocusStyle] = useState<boolean>(false);
   return (
-    <View
-      style={
-        noPaddingTop
-          ? styles.inputContainer
-          : [styles.inputContainer, { paddingTop: 15 }]
-      }
-    >
-      <Text
-        style={[
-          styles.label,
-          isInvalid && styles.labelInvalid,
-          labelSize ? { fontSize: labelSize } : {},
-        ]}
+    <View style={styles.container}>
+      <View
+        style={
+          noPaddingTop
+            ? styles.inputContainer
+            : [styles.inputContainer, { paddingTop: 15 }]
+        }
       >
-        {label}
-      </Text>
-      <TextInput
-        style={[
-          styles.input,
-          isInvalid && styles.inputInvalid,
-          { fontSize: inputTextSize ? inputTextSize : 16 },
-        ]}
-        autoCapitalize="none"
-        keyboardType={keyboardType}
-        secureTextEntry={secure}
-        onChangeText={(v) => setCurrentValue(v)}
-        onEndEditing={() => onUpdateValue(currentValue)}
-        value={currentValue}
-        editable={!disabled}
-      />
+        <Text
+          style={[
+            styles.label,
+            isInvalid && styles.labelInvalid,
+            labelSize ? { fontSize: labelSize } : {},
+          ]}
+        >
+          {label}
+        </Text>
+        <TextInput
+          style={[
+            styles.input,
+            isInvalid && styles.inputInvalid,
+            { fontSize: inputTextSize ? inputTextSize : 16 },
+            (bottomLine || onFocusStyle) && !isInvalid && styles.bottomLine,
+          ]}
+          autoCapitalize="none"
+          autoCompleteType="off"
+          textContentType="none"
+          enablesReturnKeyAutomatically
+          keyboardType={keyboardType}
+          secureTextEntry={secure}
+          onChangeText={(v) => setCurrentValue(v)}
+          onEndEditing={() => onUpdateValue(currentValue)}
+          onFocus={() => setOnFocusStyle(true)}
+          value={currentValue}
+          editable={!disabled}
+        />
+      </View>
+      {isInvalid && <Text style={styles.invalidText}>{invalidText}</Text>}
     </View>
   );
 };
@@ -72,10 +85,14 @@ export default Input;
 const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+  },
+  container: {
     paddingBottom: 15,
     paddingHorizontal: 15,
     width: "100%",
-    alignItems: "center",
+    alignItems: "flex-end",
     borderBottomColor: Colors.background600,
     borderBottomWidth: 2,
   },
@@ -83,16 +100,25 @@ const styles = StyleSheet.create({
     color: Colors.gray800,
     fontWeight: "bold",
     marginRight: 8,
-    maxWidth: 70,
+    width: 70,
   },
   labelInvalid: {
-    color: Colors.error500,
+    color: Colors.error400,
   },
   input: {
     flex: 1,
     color: Colors.gray800,
+    paddingLeft: 5,
   },
   inputInvalid: {
-    backgroundColor: Colors.error100,
+    borderBottomColor: Colors.error100,
+    borderBottomWidth: 2,
+  },
+  bottomLine: { borderBottomWidth: 2, borderBottomColor: Colors.background700 },
+  invalidText: {
+    fontSize: 12,
+    color: Colors.error100,
+    textAlign: "center",
+    width: "70%",
   },
 });

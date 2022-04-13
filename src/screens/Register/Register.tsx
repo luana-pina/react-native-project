@@ -5,19 +5,77 @@ import Input from "../../../components/Input/Input";
 import AuthLayout from "../../../components/Layout/AuthLayout";
 import AuthButton from "../../../components/UI/Butons/AuthButton";
 import { IStackScreenProps } from "../../shared/interfaces/NavigationProps";
+import { isValidInputs } from "../../shared/utils/isValidInpus";
 
 const Register: React.FunctionComponent<IStackScreenProps> = ({
   navigation,
 }) => {
-  const [enteredName, setEnteredName] = useState("");
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [enteredPassword, setEnteredPassword] = useState("");
+  const [enteredName, setEnteredName] = useState({
+    value: "",
+    isValid: true,
+    invalidText: "",
+  });
+  const [enteredEmail, setEnteredEmail] = useState({
+    value: "",
+    isValid: true,
+    invalidText: "",
+  });
+  const [enteredPassword, setEnteredPassword] = useState({
+    value: "",
+    isValid: true,
+    invalidText: "",
+  });
 
   function registerHandler() {
-    console.log(enteredEmail, enteredPassword);
-    setEnteredEmail("");
-    setEnteredPassword("");
-    navigation.navigate("Login");
+    const emailValid = isValidInputs({
+      value: enteredEmail.value,
+      type: "email",
+    });
+    const nameValid = isValidInputs({ value: enteredName.value, type: "name" });
+    const passwordValid = isValidInputs({
+      value: enteredPassword.value,
+      type: "password",
+    });
+    if (emailValid.isValid && nameValid.isValid && passwordValid.isValid) {
+      setEnteredEmail({
+        value: "",
+        isValid: true,
+        invalidText: "",
+      });
+      setEnteredName({
+        value: "",
+        isValid: true,
+        invalidText: "",
+      });
+      setEnteredPassword({
+        value: "",
+        isValid: true,
+        invalidText: "",
+      });
+      navigation.navigate("Login");
+    } else {
+      setEnteredName((curName) => {
+        return {
+          value: curName.value,
+          isValid: nameValid.isValid,
+          invalidText: nameValid.text,
+        };
+      });
+      setEnteredEmail((curEmail) => {
+        return {
+          value: curEmail.value,
+          isValid: emailValid.isValid,
+          invalidText: emailValid.text,
+        };
+      });
+      setEnteredPassword((curPassword) => {
+        return {
+          value: curPassword.value,
+          isValid: passwordValid.isValid,
+          invalidText: passwordValid.text,
+        };
+      });
+    }
   }
 
   return (
@@ -31,29 +89,44 @@ const Register: React.FunctionComponent<IStackScreenProps> = ({
         <View style={styles.container}>
           <Input
             label="Name"
-            value={enteredName}
-            isInvalid={false}
+            value={enteredName.value}
+            isInvalid={!enteredName.isValid}
+            invalidText={enteredName.invalidText}
             onUpdateValue={(enteredValue: string) => {
-              setEnteredName(enteredValue);
+              setEnteredName({
+                value: enteredValue,
+                isValid: true,
+                invalidText: "",
+              });
             }}
             noPaddingTop
           />
           <Input
             label="Email"
-            value={enteredEmail}
-            isInvalid={false}
+            value={enteredEmail.value}
+            isInvalid={!enteredEmail.isValid}
+            invalidText={enteredEmail.invalidText}
             keyboardType="email-address"
             onUpdateValue={(enteredValue: string) => {
-              setEnteredEmail(enteredValue);
+              setEnteredEmail({
+                value: enteredValue,
+                isValid: true,
+                invalidText: "",
+              });
             }}
           />
           <Input
             label="Password"
-            value={enteredPassword}
+            value={enteredPassword.value}
             secure
-            isInvalid={false}
+            isInvalid={!enteredPassword.isValid}
+            invalidText={enteredPassword.invalidText}
             onUpdateValue={(enteredValue: string) => {
-              setEnteredPassword(enteredValue);
+              setEnteredPassword({
+                value: enteredValue,
+                isValid: true,
+                invalidText: "",
+              });
             }}
           />
           <AuthButton text="Register" onPress={registerHandler} />
@@ -67,7 +140,7 @@ export default Register;
 
 const styles = StyleSheet.create({
   container: {
-    width: 250,
+    width: 300,
     alignItems: "center",
   },
 });
