@@ -10,7 +10,7 @@ import { DUMMY_BETS, DUMMY_DATA } from "../../shared/providers/data";
 import { useLayoutEffect, useState } from "react";
 import { gamesActions } from "../../shared/store";
 import { useDispatch } from "react-redux";
-import PressableFeedback from "../../../components/PressableFeedback";
+import PressableFeedback from "../../../components/UI/PressableFeedback";
 import { gameCardRender } from "../../shared/utils/gameCartRender";
 import { isSelectedHandler } from "../../shared/utils/isSelectedHandler";
 import {

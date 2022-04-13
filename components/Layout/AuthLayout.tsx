@@ -3,7 +3,7 @@ import { Colors } from "../../src/shared/constants/colors";
 import { AntDesign } from "@expo/vector-icons";
 import Card from "../UI/Card";
 import Title from "../UI/Title";
-import PressableFeedback from "../PressableFeedback";
+import PressableFeedback from "../UI/PressableFeedback";
 
 const AuthLayout: React.FunctionComponent<{
   title: string;

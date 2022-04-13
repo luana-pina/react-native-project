@@ -9,7 +9,7 @@ import { Colors } from "../../src/shared/constants/colors";
 import { useEffect, useState } from "react";
 import { DUMMY_DATA } from "../../src/shared/providers/data";
 import { convertToReal } from "../../src/shared/utils/convertToReal";
-import PressableFeedback from "../PressableFeedback";
+import PressableFeedback from "../UI/PressableFeedback";
 import { useDispatch } from "react-redux";
 import { cartActions } from "../../src/shared/store";
 

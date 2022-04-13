@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Colors } from "../../../src/shared/constants/colors";
 import React from "react";
-import PressableFeedback from "../../PressableFeedback";
+import PressableFeedback from "../PressableFeedback";
 
 const ActionsButton: React.FunctionComponent<{
   text: string;

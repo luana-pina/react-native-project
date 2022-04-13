@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Colors } from "../../../src/shared/constants/colors";
-import PressableFeedback from "../../PressableFeedback";
+import PressableFeedback from "../PressableFeedback";
 
 const AuthButton: React.FunctionComponent<{
   text: string;

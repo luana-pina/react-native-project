@@ -11,7 +11,7 @@ import { cardGameActions, gamesActions } from "../../shared/store";
 import { IDrawerScreenProps, IRootState } from "../../shared/interfaces";
 import GamesActions from "../../../components/GamesActions/GamesActions";
 import { useLayoutEffect, useState } from "react";
-import PressableFeedback from "../../../components/PressableFeedback";
+import PressableFeedback from "../../../components/UI/PressableFeedback";
 import Cart from "../../../components/Cart/Cart";
 
 const Bets: React.FC<IDrawerScreenProps> = ({ navigation }) => {

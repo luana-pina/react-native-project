@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { gameCardRender } from "../../src/shared/utils/gameCartRender";
-import PressableFeedback from "../PressableFeedback";
+import PressableFeedback from "../UI/PressableFeedback";
 import AuthButton from "../UI/Butons/AuthButton";
 import Card from "../UI/Card";
 import Title from "../UI/Title";
