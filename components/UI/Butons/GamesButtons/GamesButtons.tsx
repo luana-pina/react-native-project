@@ -5,10 +5,16 @@ import GameButton from "./GameButton";
 const GamesButtons: React.FunctionComponent<{
   onPress: (id: number) => void;
   gamePage?: boolean;
-}> = ({ onPress, gamePage }) => {
+  options?: number[];
+}> = ({ onPress, gamePage, options }) => {
   const renderButton = (itemData: any) => {
     return (
-      <GameButton game={itemData.item} onPress={onPress} gamePage={gamePage} />
+      <GameButton
+        game={itemData.item}
+        onPress={onPress}
+        gamePage={gamePage}
+        options={options}
+      />
     );
   };
 

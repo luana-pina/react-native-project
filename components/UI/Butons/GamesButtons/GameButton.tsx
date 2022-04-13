@@ -8,8 +8,9 @@ import { IGame } from "../../../../src/shared/interfaces/Games";
 const GameButton: React.FunctionComponent<{
   game: IGame;
   gamePage?: boolean;
+  options?: number[];
   onPress: Function;
-}> = ({ game, gamePage, onPress }) => {
+}> = ({ game, gamePage, onPress, options }) => {
   const [pressStyle, setPressStyle] = useState<{
     text: Object;
     container: Object;
@@ -17,19 +18,17 @@ const GameButton: React.FunctionComponent<{
     text: { color: game.color },
     container: { backgroundColor: Colors.white, borderColor: game.color },
   });
-  const [isPressed, setIsPressed] = useState<boolean>(false);
   const gameSelectedId = useSelector(
     (state: IRootState) => state.games.gameSelected.id
   );
 
   function pressHandler() {
-    setIsPressed(!isPressed);
     onPress(game.id);
   }
 
   useEffect(() => {
     if (!gamePage) {
-      if (isPressed) {
+      if (options?.some((item) => item === game.id)) {
         setPressStyle({
           text: { color: Colors.white },
           container: { backgroundColor: game.color, borderColor: game.color },
@@ -53,7 +52,7 @@ const GameButton: React.FunctionComponent<{
         });
       }
     }
-  }, [isPressed]);
+  }, [options]);
 
   return (
     <View style={[styles.buttonContainer, pressStyle.container]}>

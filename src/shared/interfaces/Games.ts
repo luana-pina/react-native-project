@@ -17,6 +17,15 @@ export interface ICardGame {
   created_at: Date;
   type: GameType;
 }
+export interface ICardRecentsGames {
+  id: number;
+  user_id: number;
+  game_id: number;
+  choosen_numbers: string;
+  price: number;
+  created_at: string;
+  type: GameType;
+}
 
 export interface ICardGameCart {
   id: number;
