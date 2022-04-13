@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Colors } from "../../src/shared/constants/colors";
 import { AntDesign } from "@expo/vector-icons";
 import Card from "../UI/Card";
