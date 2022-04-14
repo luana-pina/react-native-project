@@ -29,6 +29,7 @@ interface games {
 }
 interface login {
   isLogin: boolean;
+  token: string | undefined;
 }
 interface ui {
   isMobileHome: boolean;

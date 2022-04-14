@@ -45,3 +45,21 @@ interface GameType {
   id: number;
   type: string;
 }
+
+export interface ICartGamesBody {
+  game_id: number;
+  numbers: number[];
+}
+export interface IGamesList {
+  min_cart_value: number;
+  types: IGame[];
+}
+
+export interface INewGameBody {
+  type: string;
+  description: string;
+  range: number;
+  price: number;
+  max_number: number;
+  color: string;
+}

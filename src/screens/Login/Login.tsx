@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Base from "../../../components/Base/Base";
 import Input from "../../../components/Input/Input";
@@ -8,8 +8,11 @@ import AuthButton from "../../../components/UI/Butons/AuthButton";
 import { Colors } from "../../shared/constants/colors";
 import { IStackScreenProps } from "../../shared/interfaces/NavigationProps";
 import { isValidInputs } from "../../shared/utils/isValidInpus";
+import { auth } from "../../shared/providers";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
+  const { login } = auth();
   const [enteredEmail, setEnteredEmail] = useState({
     value: "",
     isValid: true,
@@ -21,7 +24,7 @@ const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
     invalidText: "",
   });
 
-  function loginHandler() {
+  async function loginHandler() {
     const validEmail = isValidInputs({
       value: enteredEmail.value,
       type: "email",
@@ -32,17 +35,27 @@ const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
     });
 
     if (validEmail.isValid && validPassword.isValid) {
-      setEnteredEmail({
-        value: "",
-        isValid: true,
-        invalidText: "",
-      });
-      setEnteredPassword({
-        value: "",
-        isValid: true,
-        invalidText: "",
-      });
-      navigation.navigate("Drawer");
+      await login({
+        email: enteredEmail.value,
+        password: enteredPassword.value,
+      })
+        .then(({ data }) => {
+          AsyncStorage.setItem("token", data.token.token);
+          setEnteredEmail({
+            value: "",
+            isValid: true,
+            invalidText: "",
+          });
+          setEnteredPassword({
+            value: "",
+            isValid: true,
+            invalidText: "",
+          });
+          navigation.navigate("Drawer");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     } else {
       setEnteredEmail((curEmail) => {
         return {

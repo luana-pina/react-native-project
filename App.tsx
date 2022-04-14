@@ -20,12 +20,31 @@ import {
 } from "./src/screens";
 import { createStackNavigator } from "@react-navigation/stack";
 import { IStackScreenProps } from "./src/shared/interfaces/NavigationProps";
-import { Provider } from "react-redux";
-import store from "./src/shared/store";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import store, { loginActions } from "./src/shared/store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
+import { IRootState } from "./src/shared/interfaces";
+import AppLoading from "expo-app-loading";
 
 export default function App() {
   const Drawer = createDrawerNavigator();
   const Stack = createStackNavigator();
+  const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
+  const isLogged = useSelector((state: IRootState) => state.login.isLogin);
+
+  useEffect(() => {
+    async function getToken() {
+      const haveToken = await AsyncStorage.getItem("token");
+      if (haveToken) {
+        dispatch(loginActions.setToken({ token: haveToken }));
+        dispatch(loginActions.isLoginHandler());
+      }
+      setIsLoading(false);
+    }
+    getToken();
+  }, []);
 
   const DrawerNavigation: React.FunctionComponent<IStackScreenProps> = ({
     navigation,
@@ -93,25 +112,32 @@ export default function App() {
     <>
       <StatusBar style="dark" />
       <Provider store={store}>
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Login">
-              {(props) => <Login {...props} />}
-            </Stack.Screen>
-            <Stack.Screen name="Register">
-              {(props) => <Register {...props} />}
-            </Stack.Screen>
-            <Stack.Screen name="ResetPassword">
-              {(props) => <ResetPassword {...props} />}
-            </Stack.Screen>
-            <Stack.Screen name="ChangePassword">
-              {(props) => <ChangePassword {...props} />}
-            </Stack.Screen>
-            <Stack.Screen name="Drawer">
-              {(props) => <DrawerNavigation {...props} />}
-            </Stack.Screen>
-          </Stack.Navigator>
-        </NavigationContainer>
+        {isLoading ? (
+          <AppLoading />
+        ) : (
+          <NavigationContainer>
+            <Stack.Navigator
+              screenOptions={{ headerShown: false }}
+              initialRouteName={isLogged ? "Drawer" : "Login"}
+            >
+              <Stack.Screen name="Login">
+                {(props) => <Login {...props} />}
+              </Stack.Screen>
+              <Stack.Screen name="Register">
+                {(props) => <Register {...props} />}
+              </Stack.Screen>
+              <Stack.Screen name="ResetPassword">
+                {(props) => <ResetPassword {...props} />}
+              </Stack.Screen>
+              <Stack.Screen name="ChangePassword">
+                {(props) => <ChangePassword {...props} />}
+              </Stack.Screen>
+              <Stack.Screen name="Drawer">
+                {(props) => <DrawerNavigation {...props} />}
+              </Stack.Screen>
+            </Stack.Navigator>
+          </NavigationContainer>
+        )}
       </Provider>
     </>
   );
