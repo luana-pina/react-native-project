@@ -40,7 +40,10 @@ const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
         password: enteredPassword.value,
       })
         .then(({ data }) => {
-          AsyncStorage.setItem("token", data.token.token);
+          async function saveToken() {
+            await AsyncStorage.setItem("token", data.token.token);
+          }
+          saveToken();
           setEnteredEmail({
             value: "",
             isValid: true,

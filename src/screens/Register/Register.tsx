@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import Base from "../../../components/Base/Base";
 import Input from "../../../components/Input/Input";
 import AuthLayout from "../../../components/Layout/AuthLayout";
 import AuthButton from "../../../components/UI/Butons/AuthButton";
 import { IStackScreenProps } from "../../shared/interfaces/NavigationProps";
+import { auth } from "../../shared/providers";
 import { isValidInputs } from "../../shared/utils/isValidInpus";
 
 const Register: React.FunctionComponent<IStackScreenProps> = ({
@@ -25,8 +26,9 @@ const Register: React.FunctionComponent<IStackScreenProps> = ({
     isValid: true,
     invalidText: "",
   });
+  const { registerUser } = auth();
 
-  function registerHandler() {
+  async function registerHandler() {
     const emailValid = isValidInputs({
       value: enteredEmail.value,
       type: "email",
@@ -37,22 +39,33 @@ const Register: React.FunctionComponent<IStackScreenProps> = ({
       type: "password",
     });
     if (emailValid.isValid && nameValid.isValid && passwordValid.isValid) {
-      setEnteredEmail({
-        value: "",
-        isValid: true,
-        invalidText: "",
-      });
-      setEnteredName({
-        value: "",
-        isValid: true,
-        invalidText: "",
-      });
-      setEnteredPassword({
-        value: "",
-        isValid: true,
-        invalidText: "",
-      });
-      navigation.navigate("Login");
+      await registerUser({
+        name: enteredName.value,
+        email: enteredEmail.value,
+        password: enteredPassword.value,
+      })
+        .then((res) => {
+          //success popup
+          setEnteredEmail({
+            value: "",
+            isValid: true,
+            invalidText: "",
+          });
+          setEnteredName({
+            value: "",
+            isValid: true,
+            invalidText: "",
+          });
+          setEnteredPassword({
+            value: "",
+            isValid: true,
+            invalidText: "",
+          });
+          navigation.navigate("Login");
+        })
+        .catch((err) => {
+          Alert.alert("Failed!", `${err.error.message}.`);
+        });
     } else {
       setEnteredName((curName) => {
         return {

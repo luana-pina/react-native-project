@@ -1,4 +1,5 @@
 import { ICardGame, IGame, ICardGameCart } from ".";
+import { ICardRecentsGames } from "./Games";
 
 interface card {
   clear: boolean;
@@ -16,7 +17,7 @@ interface cart {
 }
 interface games {
   gamesType: Array<IGame>;
-  recentGames: Array<ICardGame>;
+  recentGames: Array<ICardRecentsGames>;
   gameSelected: {
     id: number;
     type: string;

@@ -5,10 +5,12 @@ import Input from "../../../components/Input/Input";
 import AuthLayout from "../../../components/Layout/AuthLayout";
 import AuthButton from "../../../components/UI/Butons/AuthButton";
 import { IStackScreenProps } from "../../shared/interfaces/NavigationProps";
+import { auth } from "../../shared/providers";
 import { isValidInputs } from "../../shared/utils/isValidInpus";
 
 const ChangePassword: React.FunctionComponent<IStackScreenProps> = ({
   navigation,
+  route,
 }) => {
   const [enteredPassword, setEnteredPassword] = useState({
     value: "",
@@ -20,8 +22,10 @@ const ChangePassword: React.FunctionComponent<IStackScreenProps> = ({
     isValid: true,
     invalidText: "",
   });
+  const token: any = route.params;
+  const { changePassword } = auth();
 
-  function changePasswordHandler() {
+  async function changePasswordHandler() {
     const isValidPassword = isValidInputs({
       value: enteredPassword.value,
       type: "password",
@@ -31,18 +35,24 @@ const ChangePassword: React.FunctionComponent<IStackScreenProps> = ({
       enteredPassword.value === enteredConfirmPassword.value;
 
     if (isValidConfirmPassword && isValidPassword) {
-      console.log(enteredPassword, enteredConfirmPassword);
-      setEnteredConfirmPassword({
-        value: "",
-        isValid: true,
-        invalidText: "",
-      });
-      setEnteredPassword({
-        value: "",
-        isValid: true,
-        invalidText: "",
-      });
-      navigation.navigate("Login");
+      await changePassword(token, { password: enteredPassword.value })
+        .then((res) => {
+          // success pop up
+          setEnteredConfirmPassword({
+            value: "",
+            isValid: true,
+            invalidText: "",
+          });
+          setEnteredPassword({
+            value: "",
+            isValid: true,
+            invalidText: "",
+          });
+          navigation.navigate("Login");
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
     } else {
       setEnteredPassword((curChangePassword) => {
         return {

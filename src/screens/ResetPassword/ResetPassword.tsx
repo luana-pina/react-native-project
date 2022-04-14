@@ -5,6 +5,7 @@ import Input from "../../../components/Input/Input";
 import AuthLayout from "../../../components/Layout/AuthLayout";
 import AuthButton from "../../../components/UI/Butons/AuthButton";
 import { IStackScreenProps } from "../../shared/interfaces/NavigationProps";
+import { auth } from "../../shared/providers";
 import { isValidInputs } from "../../shared/utils/isValidInpus";
 
 const ResetPassword: React.FunctionComponent<IStackScreenProps> = ({
@@ -16,19 +17,29 @@ const ResetPassword: React.FunctionComponent<IStackScreenProps> = ({
     invalidText: "",
   });
 
-  function sendLinkHandler() {
+  const { resetPassword } = auth();
+
+  async function sendLinkHandler() {
     const validEmail = isValidInputs({
       value: enteredEmail.value,
       type: "email",
     });
 
     if (validEmail.isValid) {
-      setEnteredEmail({
-        value: "",
-        isValid: true,
-        invalidText: "",
-      });
-      navigation.navigate("ChangePassword");
+      await resetPassword({ email: enteredEmail.value })
+        .then(({ data }) => {
+          setEnteredEmail({
+            value: "",
+            isValid: true,
+            invalidText: "",
+          });
+          const token = data.token;
+          navigation.navigate("ChangePassword", token);
+        })
+        .catch((err) => {
+          //error pop up
+          console.error(err.message);
+        });
     } else {
       setEnteredEmail((curEmail) => {
         return {

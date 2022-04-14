@@ -7,30 +7,39 @@ import { DUMMY_DATA } from "../../shared/providers/data";
 import GameTable from "../../../components/GameTable/GameTable";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { cardGameActions, gamesActions } from "../../shared/store";
+import { cardGameActions, cartActions, gamesActions } from "../../shared/store";
 import { IDrawerScreenProps, IRootState } from "../../shared/interfaces";
 import GamesActions from "../../../components/GamesActions/GamesActions";
 import { useLayoutEffect, useState } from "react";
 import PressableFeedback from "../../../components/UI/PressableFeedback";
 import Cart from "../../../components/Cart/Cart";
+import { games } from "../../shared/providers";
 
 const Bets: React.FC<IDrawerScreenProps> = ({ navigation }) => {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
   const game = useSelector((state: IRootState) => state.games.gameSelected);
   const cartItems = useSelector((state: IRootState) => state.cart.cardGames);
   const dispatch = useDispatch();
+  const gamesTypeApp = useSelector(
+    (state: IRootState) => state.games.gamesType
+  );
+  const { getGamesTypes } = games();
 
   useLayoutEffect(() => {
-    gameSelectHandler(DUMMY_DATA.types[0].id);
+    gameSelectHandler(gamesTypeApp[0].id);
   }, []);
 
-  function gameSelectHandler(id: number) {
-    dispatch(
-      gamesActions.getSelectedGame({
-        requestData: DUMMY_DATA.types,
-        gameId: id,
+  async function gameSelectHandler(id: number) {
+    await getGamesTypes()
+      .then(({ data }) => {
+        dispatch(
+          gamesActions.getSelectedGame({
+            requestData: data.types,
+            gameId: id,
+          })
+        );
       })
-    );
+      .catch((err) => console.error(err));
   }
   function onSave() {
     setModalIsVisible(false);

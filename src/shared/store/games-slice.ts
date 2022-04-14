@@ -1,18 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IGame, ICardGame } from "../interfaces";
-import { stringToArray } from "../utils/stringToArray";
+import { IGame, ICardRecentsGames } from "../interfaces";
 
 const gamesSlice = createSlice({
   name: "games",
   initialState: {
     gamesType: Array<IGame>(),
-    recentGames: Array<ICardGame>(),
+    recentGames: Array<ICardRecentsGames>(),
     gameSelected: {},
   },
   reducers: {
     clearData(state) {
       state.gamesType = Array<IGame>();
-      state.recentGames = Array<ICardGame>();
+      state.recentGames = Array<ICardRecentsGames>();
       state.gameSelected = {};
     },
     getSelectedGame(state, action) {
@@ -28,22 +27,11 @@ const gamesSlice = createSlice({
     },
     getRecentGames(state, action) {
       const { requestData } = action.payload;
-      requestData.forEach(
-        (item: {
-          id: number;
-          user_id: number;
-          game_id: number;
-          choosen_numbers: string;
-          price: number;
-          created_at: Date;
-          type: { id: number; type: string };
-        }) => {
-          state.recentGames.push({
-            ...item,
-            choosen_numbers: stringToArray(item.choosen_numbers),
-          });
-        }
-      );
+      requestData.forEach((item: ICardRecentsGames) => {
+        state.recentGames.push({
+          ...item,
+        });
+      });
     },
   },
 });

@@ -8,8 +8,8 @@ import { IDrawerScreenProps } from "../../shared/interfaces/NavigationProps";
 import { FlatList } from "react-native-gesture-handler";
 import { DUMMY_BETS, DUMMY_DATA } from "../../shared/providers/data";
 import { useLayoutEffect, useState } from "react";
-import { gamesActions } from "../../shared/store";
-import { useDispatch } from "react-redux";
+import { cartActions, gamesActions } from "../../shared/store";
+import { useDispatch, useSelector } from "react-redux";
 import PressableFeedback from "../../../components/UI/PressableFeedback";
 import { gameCardRender } from "../../shared/utils/gameCartRender";
 import { isSelectedHandler } from "../../shared/utils/isSelectedHandler";
@@ -17,22 +17,45 @@ import {
   ICardGame,
   ICardGameAccount,
   ICardGameCart,
+  IRootState,
 } from "../../shared/interfaces";
 import { ICardRecentsGames } from "../../shared/interfaces/Games";
+import { games } from "../../shared/providers";
 
 const Home: React.FC<IDrawerScreenProps> = ({ navigation }) => {
   const dispatch = useDispatch();
   const [filtered, setFiltered] = useState<ICardRecentsGames[]>();
   const [options, setOptions] = useState<number[]>([]);
+  const { getRecentGames, getGamesTypes } = games();
+  const recentGamesUser = useSelector(
+    (state: IRootState) => state.games.recentGames
+  );
 
   useLayoutEffect(() => {
-    dispatch(
-      gamesActions.getSelectedGame({
-        requestData: DUMMY_DATA.types,
-        gameId: DUMMY_DATA.types[0].id,
-      })
-    );
-    setFiltered(DUMMY_BETS);
+    async function gamesType() {
+      await getGamesTypes()
+        .then(({ data }) => {
+          dispatch(cartActions.getMinCartValue(data.min_cart_value));
+          dispatch(
+            gamesActions.getSelectedGame({
+              requestData: data.types,
+              gameId: data.types[0].id,
+            })
+          );
+        })
+        .catch((err) => console.error(err));
+    }
+    async function recentGames() {
+      await getRecentGames()
+        .then((res) => {
+          dispatch(gamesActions.getRecentGames({ requestData: res.data }));
+          setFiltered(recentGamesUser);
+        })
+        .catch((err) => console.error(err));
+    }
+
+    gamesType();
+    recentGames();
   }, []);
 
   function onSelectFilter(id: number) {

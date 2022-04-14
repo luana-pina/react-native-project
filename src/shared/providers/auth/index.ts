@@ -6,7 +6,6 @@ const auth = () => {
     return instance.post(`/reset/${token}`, body);
   }
   async function login(body: IBodyLogin) {
-    console.log(body);
     return instance.post("/login", body);
   }
   async function registerUser(body: IBodyRegister) {
