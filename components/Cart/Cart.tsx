@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { SimpleLineIcons } from "@expo/vector-icons";
 import { gameCardRender } from "../../src/shared/utils/gameCartRender";
 import PressableFeedback from "../UI/PressableFeedback";
 import AuthButton from "../UI/Butons/AuthButton";
@@ -11,6 +10,7 @@ import { Colors } from "../../src/shared/constants/colors";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../src/shared/interfaces";
 import { convertToReal } from "../../src/shared/utils/convertToReal";
+import NoGames from "../NoGames/NoGames";
 
 const Cart: React.FC<{ onClose: Function; onSave: Function }> = ({
   onClose,
@@ -48,14 +48,7 @@ const Cart: React.FC<{ onClose: Function; onSave: Function }> = ({
             style={styles.betsContainer}
           />
         ) : (
-          <View style={styles.noGamesView}>
-            <SimpleLineIcons
-              name="game-controller"
-              size={20}
-              color={Colors.gray600}
-            />
-            <Text style={styles.noGamesText}>You do not have games yet </Text>
-          </View>
+          <NoGames />
         )}
         <View style={{ flexDirection: "row", width: "100%" }}>
           <Title text="CART" size={18} />
@@ -109,18 +102,5 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     maxHeight: 300,
     width: "100%",
-  },
-  noGamesView: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "baseline",
-    paddingVertical: 40,
-  },
-  noGamesText: {
-    fontSize: 14,
-    color: Colors.gray600,
-    fontStyle: "italic",
-    marginLeft: 10,
   },
 });

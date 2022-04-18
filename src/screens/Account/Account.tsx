@@ -4,18 +4,22 @@ import Card from "../../../components/UI/Card";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors } from "../../shared/constants/colors";
 import Input from "../../../components/Input/Input";
-import { useState } from "react";
-import { DUMMY_BETS } from "../../shared/providers/data";
+import { useCallback, useEffect, useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import Title from "../../../components/UI/Title";
 import PressableFeedback from "../../../components/UI/PressableFeedback";
 import { gameCardRender } from "../../shared/utils/gameCartRender";
 import { isValidInputs } from "../../shared/utils/isValidInpus";
+import { useDispatch } from "react-redux";
+import { user } from "../../shared/providers";
+import { ICardRecentsGames } from "../../shared/interfaces";
+import NoGames from "../../../components/NoGames/NoGames";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Account: React.FC = () => {
   const [defaultValue, setDefaultValue] = useState({
-    name: "Luana Pina",
-    email: "luanagpina@gmail.com",
+    name: "",
+    email: "",
   });
   const [userName, setUserName] = useState({
     value: defaultValue.name,
@@ -28,8 +32,10 @@ const Account: React.FC = () => {
     invalidText: "",
   });
   const [isdisabled, setIsdisabled] = useState<boolean>(true);
+  const [recentGames, setRecentGames] = useState<ICardRecentsGames[]>([]);
+  const { getAccount, updateUser } = user();
 
-  function onSaveHandler() {
+  async function onSaveHandler() {
     const isValidName = isValidInputs({ value: userName.value, type: "name" });
     const isValidEmail = isValidInputs({
       value: userEmail.value,
@@ -37,8 +43,14 @@ const Account: React.FC = () => {
     });
 
     if (isValidEmail.isValid && isValidName.isValid) {
-      setDefaultValue({ name: userName.value, email: userEmail.value });
-      setIsdisabled(true);
+      await updateUser({ name: userName.value, email: userEmail.value })
+        .then((res) => {
+          setDefaultValue({ name: userName.value, email: userEmail.value });
+          setIsdisabled(true);
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
     } else {
       setUserEmail((curEmail) => {
         return {
@@ -70,6 +82,36 @@ const Account: React.FC = () => {
     });
     setIsdisabled(true);
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      async function getAccountData() {
+        await getAccount()
+          .then(({ data }) => {
+            setDefaultValue({ email: data.email, name: data.name });
+            setUserName({
+              value: data.name,
+              isValid: true,
+              invalidText: "",
+            });
+            setUserEmail({
+              value: data.email,
+              isValid: true,
+              invalidText: "",
+            });
+            const bets: ICardRecentsGames[] = [];
+            data.bets.forEach((item: any) => {
+              bets.push({ ...item, type: { id: item.game_id } });
+            });
+            setRecentGames(bets);
+          })
+          .catch((err) => {
+            console.error(err.message);
+          });
+      }
+      getAccountData();
+    }, [])
+  );
 
   return (
     <Base>
@@ -145,14 +187,18 @@ const Account: React.FC = () => {
           />
         </View>
         <Title text="Recent Games:" size={18} style={styles.betsTitle} />
-        <ScrollView style={styles.betsContainer}>
-          <FlatList
-            listKey="bets"
-            data={DUMMY_BETS}
-            keyExtractor={(item) => String(item.id)}
-            renderItem={gameCardRender}
-          />
-        </ScrollView>
+        {recentGames.length > 0 ? (
+          <ScrollView style={styles.betsContainer}>
+            <FlatList
+              listKey="bets"
+              data={recentGames}
+              keyExtractor={(item) => String(item.id)}
+              renderItem={gameCardRender}
+            />
+          </ScrollView>
+        ) : (
+          <NoGames />
+        )}
       </Card>
     </Base>
   );

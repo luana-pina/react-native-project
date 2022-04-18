@@ -6,25 +6,21 @@ import { AntDesign } from "@expo/vector-icons";
 import { Colors } from "../../shared/constants/colors";
 import { IDrawerScreenProps } from "../../shared/interfaces/NavigationProps";
 import { FlatList } from "react-native-gesture-handler";
-import { DUMMY_BETS, DUMMY_DATA } from "../../shared/providers/data";
-import { useLayoutEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 import { cartActions, gamesActions } from "../../shared/store";
 import { useDispatch, useSelector } from "react-redux";
 import PressableFeedback from "../../../components/UI/PressableFeedback";
 import { gameCardRender } from "../../shared/utils/gameCartRender";
 import { isSelectedHandler } from "../../shared/utils/isSelectedHandler";
-import {
-  ICardGame,
-  ICardGameAccount,
-  ICardGameCart,
-  IRootState,
-} from "../../shared/interfaces";
+import { IRootState } from "../../shared/interfaces";
 import { ICardRecentsGames } from "../../shared/interfaces/Games";
 import { games } from "../../shared/providers";
+import NoGames from "../../../components/NoGames/NoGames";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Home: React.FC<IDrawerScreenProps> = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [filtered, setFiltered] = useState<ICardRecentsGames[]>();
+  const [filtered, setFiltered] = useState<ICardRecentsGames[]>([]);
   const [options, setOptions] = useState<number[]>([]);
   const { getRecentGames, getGamesTypes } = games();
   const recentGamesUser = useSelector(
@@ -45,18 +41,22 @@ const Home: React.FC<IDrawerScreenProps> = ({ navigation }) => {
         })
         .catch((err) => console.error(err));
     }
-    async function recentGames() {
-      await getRecentGames()
-        .then((res) => {
-          dispatch(gamesActions.getRecentGames({ requestData: res.data }));
-          setFiltered(recentGamesUser);
-        })
-        .catch((err) => console.error(err));
-    }
-
     gamesType();
-    recentGames();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      async function recentGames() {
+        await getRecentGames()
+          .then((res) => {
+            dispatch(gamesActions.getRecentGames({ requestData: res.data }));
+            setFiltered(res.data);
+          })
+          .catch((err) => console.error(err));
+      }
+      recentGames();
+    }, [])
+  );
 
   function onSelectFilter(id: number) {
     const newOptions: number[] = [...options];
@@ -68,7 +68,7 @@ const Home: React.FC<IDrawerScreenProps> = ({ navigation }) => {
     }
     setOptions(newOptions);
 
-    const filter = DUMMY_BETS.filter((bet) => {
+    const filter = recentGamesUser.filter((bet) => {
       return newOptions.join(",").match(`${bet.type.id}`);
     });
     filter.sort((a, b) => {
@@ -80,7 +80,7 @@ const Home: React.FC<IDrawerScreenProps> = ({ navigation }) => {
     if (newOptions.length > 0) {
       setFiltered(filter);
     } else {
-      setFiltered(DUMMY_BETS);
+      setFiltered(recentGamesUser);
     }
   }
 
@@ -103,12 +103,16 @@ const Home: React.FC<IDrawerScreenProps> = ({ navigation }) => {
       <Text style={styles.filtersTitle}>Filters</Text>
       <GamesButtons onPress={onSelectFilter} options={options} />
       <View style={styles.betsContainer}>
-        <FlatList
-          listKey="bets"
-          data={filtered}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={gameCardRender}
-        />
+        {filtered?.length > 0 ? (
+          <FlatList
+            listKey="bets"
+            data={filtered}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={gameCardRender}
+          />
+        ) : (
+          <NoGames />
+        )}
       </View>
     </Base>
   );

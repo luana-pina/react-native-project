@@ -7,11 +7,11 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../src/shared/constants/colors";
 import { useEffect, useState } from "react";
-import { DUMMY_DATA } from "../../src/shared/providers/data";
 import { convertToReal } from "../../src/shared/utils/convertToReal";
 import PressableFeedback from "../UI/PressableFeedback";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../../src/shared/store";
+import { IRootState } from "../../src/shared/interfaces";
 
 const GameCard: React.FunctionComponent<{
   item: ICardGame | ICardGameCart | ICardGameAccount;
@@ -22,10 +22,11 @@ const GameCard: React.FunctionComponent<{
   const [color, setColor] = useState<string>(Colors.gray800);
   const [gameName, setGameName] = useState<string>("");
   const dispatch = useDispatch();
+  const gamesType = useSelector((state: IRootState) => state.games.gamesType);
 
   useEffect(() => {
     function getCardColor() {
-      DUMMY_DATA.types.forEach((game) => {
+      gamesType.forEach((game) => {
         if (game.id === item.type.id) {
           setColor(game.color);
           setGameName(game.type);

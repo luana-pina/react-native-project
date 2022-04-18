@@ -21,7 +21,11 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import { IStackScreenProps } from "./src/shared/interfaces/NavigationProps";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import store, { loginActions } from "./src/shared/store";
+import store, {
+  cartActions,
+  gamesActions,
+  loginActions,
+} from "./src/shared/store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { IRootState } from "./src/shared/interfaces";
@@ -55,6 +59,9 @@ function Root() {
           <LogoutItem
             onPress={() => {
               AsyncStorage.removeItem("token");
+              dispatch(gamesActions.clearData());
+              dispatch(cartActions.clearCart());
+              dispatch(loginActions.isLoginHandler());
               navigation.navigate("Login");
             }}
           />

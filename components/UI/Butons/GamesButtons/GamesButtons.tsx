@@ -1,5 +1,6 @@
 import { FlatList } from "react-native";
-import { DUMMY_DATA } from "../../../../src/shared/providers/data";
+import { useSelector } from "react-redux";
+import { IRootState } from "../../../../src/shared/interfaces";
 import GameButton from "./GameButton";
 
 const GamesButtons: React.FunctionComponent<{
@@ -7,6 +8,8 @@ const GamesButtons: React.FunctionComponent<{
   gamePage?: boolean;
   options?: number[];
 }> = ({ onPress, gamePage, options }) => {
+  const gamesType = useSelector((state: IRootState) => state.games.gamesType);
+
   const renderButton = (itemData: any) => {
     return (
       <GameButton
@@ -20,7 +23,7 @@ const GamesButtons: React.FunctionComponent<{
 
   return (
     <FlatList
-      data={DUMMY_DATA.types}
+      data={gamesType}
       keyExtractor={(item) => String(item.id)}
       renderItem={renderButton}
       numColumns={3}

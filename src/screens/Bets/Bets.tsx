@@ -3,17 +3,20 @@ import Base from "../../../components/Base/Base";
 import GamesButtons from "../../../components/UI/Butons/GamesButtons/GamesButtons";
 import Title from "../../../components/UI/Title";
 import { Colors } from "../../shared/constants/colors";
-import { DUMMY_DATA } from "../../shared/providers/data";
 import GameTable from "../../../components/GameTable/GameTable";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { cardGameActions, cartActions, gamesActions } from "../../shared/store";
-import { IDrawerScreenProps, IRootState } from "../../shared/interfaces";
+import { cartActions, gamesActions } from "../../shared/store";
+import {
+  ICartGamesBody,
+  IDrawerScreenProps,
+  IRootState,
+} from "../../shared/interfaces";
 import GamesActions from "../../../components/GamesActions/GamesActions";
 import { useLayoutEffect, useState } from "react";
 import PressableFeedback from "../../../components/UI/PressableFeedback";
 import Cart from "../../../components/Cart/Cart";
-import { games } from "../../shared/providers";
+import { cart, games } from "../../shared/providers";
 
 const Bets: React.FC<IDrawerScreenProps> = ({ navigation }) => {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
@@ -24,6 +27,7 @@ const Bets: React.FC<IDrawerScreenProps> = ({ navigation }) => {
     (state: IRootState) => state.games.gamesType
   );
   const { getGamesTypes } = games();
+  const { sendCart } = cart();
 
   useLayoutEffect(() => {
     gameSelectHandler(gamesTypeApp[0].id);
@@ -41,9 +45,23 @@ const Bets: React.FC<IDrawerScreenProps> = ({ navigation }) => {
       })
       .catch((err) => console.error(err));
   }
-  function onSave() {
-    setModalIsVisible(false);
-    navigation.navigate("Home");
+  async function onSave() {
+    const cartGamesBody: ICartGamesBody[] = [];
+    cartItems.forEach((item) => {
+      cartGamesBody.push({
+        game_id: item.type.id,
+        numbers: item.choosen_numbers,
+      });
+    });
+    await sendCart({ games: cartGamesBody })
+      .then((res) => {
+        dispatch(cartActions.clearCart());
+        setModalIsVisible(false);
+        navigation.navigate("Home");
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
   }
 
   return (
