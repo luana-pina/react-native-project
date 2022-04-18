@@ -30,6 +30,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { IRootState } from "./src/shared/interfaces";
 import AppLoading from "expo-app-loading";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 function Root() {
   const [isLoading, setIsLoading] = useState(true);
@@ -59,10 +60,10 @@ function Root() {
           <LogoutItem
             onPress={() => {
               AsyncStorage.removeItem("token");
+              navigation.navigate("Login");
               dispatch(gamesActions.clearData());
               dispatch(cartActions.clearCart());
               dispatch(loginActions.isLoginHandler());
-              navigation.navigate("Login");
             }}
           />
         </View>
@@ -150,9 +151,11 @@ export default function App() {
   return (
     <>
       <StatusBar style="dark" />
-      <Provider store={store}>
-        <Root />
-      </Provider>
+      <RootSiblingParent>
+        <Provider store={store}>
+          <Root />
+        </Provider>
+      </RootSiblingParent>
     </>
   );
 }

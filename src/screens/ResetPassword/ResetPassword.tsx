@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback, useState } from "react";
 import { StyleSheet, View } from "react-native";
+import Toast from "react-native-root-toast";
 import Base from "../../../components/Base/Base";
 import Input from "../../../components/Input/Input";
 import AuthLayout from "../../../components/Layout/AuthLayout";
 import AuthButton from "../../../components/UI/Butons/AuthButton";
+import { Colors } from "../../shared/constants/colors";
 import { IStackScreenProps } from "../../shared/interfaces/NavigationProps";
 import { auth } from "../../shared/providers";
 import { isValidInputs } from "../../shared/utils/isValidInpus";
+import { showToast } from "../../shared/utils/showToast";
 
 const ResetPassword: React.FunctionComponent<IStackScreenProps> = ({
   navigation,
@@ -26,8 +30,17 @@ const ResetPassword: React.FunctionComponent<IStackScreenProps> = ({
     });
 
     if (validEmail.isValid) {
+      const toast = Toast.show("Loading...", {
+        position: 60,
+        duration: 100000,
+        animation: true,
+        backgroundColor: Colors.background700,
+        textColor: Colors.gray800,
+        textStyle: { fontWeight: "bold" },
+      });
       await resetPassword({ email: enteredEmail.value })
         .then(({ data }) => {
+          Toast.hide(toast);
           setEnteredEmail({
             value: "",
             isValid: true,
@@ -37,8 +50,8 @@ const ResetPassword: React.FunctionComponent<IStackScreenProps> = ({
           navigation.navigate("ChangePassword", token);
         })
         .catch((err) => {
-          //error pop up
-          console.error(err.message);
+          Toast.hide(toast);
+          showToast(err.message, "error");
         });
     } else {
       setEnteredEmail((curEmail) => {
@@ -50,6 +63,16 @@ const ResetPassword: React.FunctionComponent<IStackScreenProps> = ({
       });
     }
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      setEnteredEmail({
+        value: "",
+        isValid: true,
+        invalidText: "",
+      });
+    }, [])
+  );
 
   return (
     <Base>

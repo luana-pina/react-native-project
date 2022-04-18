@@ -17,6 +17,7 @@ import { ICardRecentsGames } from "../../shared/interfaces/Games";
 import { games } from "../../shared/providers";
 import NoGames from "../../../components/NoGames/NoGames";
 import { useFocusEffect } from "@react-navigation/native";
+import { showToast } from "../../shared/utils/showToast";
 
 const Home: React.FC<IDrawerScreenProps> = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -39,7 +40,9 @@ const Home: React.FC<IDrawerScreenProps> = ({ navigation }) => {
             })
           );
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+          showToast(err.message, "error");
+        });
     }
     gamesType();
   }, []);
@@ -52,7 +55,9 @@ const Home: React.FC<IDrawerScreenProps> = ({ navigation }) => {
             dispatch(gamesActions.getRecentGames({ requestData: res.data }));
             setFiltered(res.data);
           })
-          .catch((err) => console.error(err));
+          .catch((err) => {
+            showToast(err.message, "error");
+          });
       }
       recentGames();
     }, [])

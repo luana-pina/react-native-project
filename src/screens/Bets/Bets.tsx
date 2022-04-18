@@ -17,6 +17,8 @@ import { useLayoutEffect, useState } from "react";
 import PressableFeedback from "../../../components/UI/PressableFeedback";
 import Cart from "../../../components/Cart/Cart";
 import { cart, games } from "../../shared/providers";
+import { showToast } from "../../shared/utils/showToast";
+import Toast from "react-native-root-toast";
 
 const Bets: React.FC<IDrawerScreenProps> = ({ navigation }) => {
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
@@ -43,7 +45,7 @@ const Bets: React.FC<IDrawerScreenProps> = ({ navigation }) => {
           })
         );
       })
-      .catch((err) => console.error(err));
+      .catch((err) => showToast(err.message, "error"));
   }
   async function onSave() {
     const cartGamesBody: ICartGamesBody[] = [];
@@ -53,14 +55,25 @@ const Bets: React.FC<IDrawerScreenProps> = ({ navigation }) => {
         numbers: item.choosen_numbers,
       });
     });
+    const toast = Toast.show("Loading...", {
+      position: 60,
+      duration: 100000,
+      animation: true,
+      backgroundColor: Colors.background700,
+      textColor: Colors.gray800,
+      textStyle: { fontWeight: "bold" },
+    });
     await sendCart({ games: cartGamesBody })
       .then((res) => {
+        Toast.hide(toast);
         dispatch(cartActions.clearCart());
         setModalIsVisible(false);
         navigation.navigate("Home");
+        showToast("Games sended successfully!", "success");
       })
       .catch((err) => {
-        console.error(err.message);
+        Toast.hide(toast);
+        showToast(err.message, "error");
       });
   }
 

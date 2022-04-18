@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
+import Toast from "react-native-root-toast";
 import Base from "../../../components/Base/Base";
 import Input from "../../../components/Input/Input";
 import AuthLayout from "../../../components/Layout/AuthLayout";
 import AuthButton from "../../../components/UI/Butons/AuthButton";
+import { Colors } from "../../shared/constants/colors";
 import { IStackScreenProps } from "../../shared/interfaces/NavigationProps";
 import { auth } from "../../shared/providers";
 import { isValidInputs } from "../../shared/utils/isValidInpus";
+import { showToast } from "../../shared/utils/showToast";
 
 const Register: React.FunctionComponent<IStackScreenProps> = ({
   navigation,
@@ -39,13 +43,22 @@ const Register: React.FunctionComponent<IStackScreenProps> = ({
       type: "password",
     });
     if (emailValid.isValid && nameValid.isValid && passwordValid.isValid) {
+      const toast = Toast.show("Loading...", {
+        position: 60,
+        duration: 100000,
+        animation: true,
+        backgroundColor: Colors.background700,
+        textColor: Colors.gray800,
+        textStyle: { fontWeight: "bold" },
+      });
       await registerUser({
         name: enteredName.value,
         email: enteredEmail.value,
         password: enteredPassword.value,
       })
         .then((res) => {
-          //success popup
+          Toast.hide(toast);
+          showToast("User created successfully!", "success");
           setEnteredEmail({
             value: "",
             isValid: true,
@@ -64,7 +77,8 @@ const Register: React.FunctionComponent<IStackScreenProps> = ({
           navigation.navigate("Login");
         })
         .catch((err) => {
-          Alert.alert("Failed!", `${err.error.message}.`);
+          Toast.hide(toast);
+          showToast(err.error.message, "error");
         });
     } else {
       setEnteredName((curName) => {
@@ -90,6 +104,26 @@ const Register: React.FunctionComponent<IStackScreenProps> = ({
       });
     }
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      setEnteredName({
+        value: "",
+        isValid: true,
+        invalidText: "",
+      });
+      setEnteredEmail({
+        value: "",
+        isValid: true,
+        invalidText: "",
+      });
+      setEnteredPassword({
+        value: "",
+        isValid: true,
+        invalidText: "",
+      });
+    }, [])
+  );
 
   return (
     <Base>

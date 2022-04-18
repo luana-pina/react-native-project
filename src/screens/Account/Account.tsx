@@ -15,6 +15,8 @@ import { user } from "../../shared/providers";
 import { ICardRecentsGames } from "../../shared/interfaces";
 import NoGames from "../../../components/NoGames/NoGames";
 import { useFocusEffect } from "@react-navigation/native";
+import { showToast } from "../../shared/utils/showToast";
+import Toast from "react-native-root-toast";
 
 const Account: React.FC = () => {
   const [defaultValue, setDefaultValue] = useState({
@@ -43,13 +45,24 @@ const Account: React.FC = () => {
     });
 
     if (isValidEmail.isValid && isValidName.isValid) {
+      const toast = Toast.show("Loading...", {
+        position: 60,
+        duration: 100000,
+        animation: true,
+        backgroundColor: Colors.background700,
+        textColor: Colors.gray800,
+        textStyle: { fontWeight: "bold" },
+      });
       await updateUser({ name: userName.value, email: userEmail.value })
         .then((res) => {
+          Toast.hide(toast);
+          showToast("User updated successfully", "success");
           setDefaultValue({ name: userName.value, email: userEmail.value });
           setIsdisabled(true);
         })
         .catch((err) => {
-          console.error(err.message);
+          Toast.hide(toast);
+          showToast(err.message, "error");
         });
     } else {
       setUserEmail((curEmail) => {
@@ -106,7 +119,7 @@ const Account: React.FC = () => {
             setRecentGames(bets);
           })
           .catch((err) => {
-            console.error(err.message);
+            showToast(err.message, "error");
           });
       }
       getAccountData();

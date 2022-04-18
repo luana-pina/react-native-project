@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback, useState } from "react";
 import { StyleSheet, View } from "react-native";
+import Toast from "react-native-root-toast";
 import Base from "../../../components/Base/Base";
 import Input from "../../../components/Input/Input";
 import AuthLayout from "../../../components/Layout/AuthLayout";
 import AuthButton from "../../../components/UI/Butons/AuthButton";
+import { Colors } from "../../shared/constants/colors";
 import { IStackScreenProps } from "../../shared/interfaces/NavigationProps";
 import { auth } from "../../shared/providers";
 import { isValidInputs } from "../../shared/utils/isValidInpus";
+import { showToast } from "../../shared/utils/showToast";
 
 const ChangePassword: React.FunctionComponent<IStackScreenProps> = ({
   navigation,
@@ -35,9 +39,17 @@ const ChangePassword: React.FunctionComponent<IStackScreenProps> = ({
       enteredPassword.value === enteredConfirmPassword.value;
 
     if (isValidConfirmPassword && isValidPassword) {
+      const toast = Toast.show("Loading...", {
+        position: 60,
+        duration: 100000,
+        animation: true,
+        backgroundColor: Colors.background700,
+        textColor: Colors.gray800,
+        textStyle: { fontWeight: "bold" },
+      });
       await changePassword(token, { password: enteredPassword.value })
         .then((res) => {
-          // success pop up
+          showToast("Password changed successfully!", "success");
           setEnteredConfirmPassword({
             value: "",
             isValid: true,
@@ -48,10 +60,12 @@ const ChangePassword: React.FunctionComponent<IStackScreenProps> = ({
             isValid: true,
             invalidText: "",
           });
+          Toast.hide(toast);
           navigation.navigate("Login");
         })
         .catch((err) => {
-          console.error(err.message);
+          Toast.hide(toast);
+          showToast(err.message, "error");
         });
     } else {
       setEnteredPassword((curChangePassword) => {
@@ -73,6 +87,21 @@ const ChangePassword: React.FunctionComponent<IStackScreenProps> = ({
       });
     }
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      setEnteredConfirmPassword({
+        value: "",
+        isValid: true,
+        invalidText: "",
+      });
+      setEnteredPassword({
+        value: "",
+        isValid: true,
+        invalidText: "",
+      });
+    }, [])
+  );
 
   return (
     <Base>

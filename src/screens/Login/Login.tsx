@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Base from "../../../components/Base/Base";
 import Input from "../../../components/Input/Input";
@@ -8,8 +8,13 @@ import AuthButton from "../../../components/UI/Butons/AuthButton";
 import { Colors } from "../../shared/constants/colors";
 import { IStackScreenProps } from "../../shared/interfaces/NavigationProps";
 import { isValidInputs } from "../../shared/utils/isValidInpus";
-import { auth } from "../../shared/providers";
+import { auth, games } from "../../shared/providers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { cartActions, gamesActions } from "../../shared/store";
+import { useDispatch } from "react-redux";
+import { showToast } from "../../shared/utils/showToast";
+import { useFocusEffect } from "@react-navigation/native";
+import Toast from "react-native-root-toast";
 
 const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
   const { login } = auth();
@@ -23,6 +28,8 @@ const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
     isValid: true,
     invalidText: "",
   });
+  const { getGamesTypes } = games();
+  const dispatch = useDispatch();
 
   async function loginHandler() {
     const validEmail = isValidInputs({
@@ -35,6 +42,14 @@ const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
     });
 
     if (validEmail.isValid && validPassword.isValid) {
+      const toast = Toast.show("Loading...", {
+        position: 60,
+        duration: 100000,
+        animation: true,
+        backgroundColor: Colors.background700,
+        textColor: Colors.gray800,
+        textStyle: { fontWeight: "bold" },
+      });
       await login({
         email: enteredEmail.value,
         password: enteredPassword.value,
@@ -44,6 +59,7 @@ const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
             await AsyncStorage.setItem("token", data.token.token);
           }
           saveToken();
+          Toast.hide(toast);
           setEnteredEmail({
             value: "",
             isValid: true,
@@ -54,10 +70,12 @@ const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
             isValid: true,
             invalidText: "",
           });
+          showToast("User logged successfully", "success");
           navigation.navigate("Drawer");
         })
         .catch((err) => {
-          console.error(err);
+          Toast.hide(toast);
+          showToast(err.message, "error");
         });
     } else {
       setEnteredEmail((curEmail) => {
@@ -76,6 +94,38 @@ const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
       });
     }
   }
+
+  useEffect(() => {
+    async function gamesType() {
+      await getGamesTypes()
+        .then(({ data }) => {
+          dispatch(cartActions.getMinCartValue(data.min_cart_value));
+          dispatch(
+            gamesActions.getSelectedGame({
+              requestData: data.types,
+              gameId: data.types[0].id,
+            })
+          );
+        })
+        .catch((err) => showToast(err.message, "error"));
+    }
+    gamesType();
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      setEnteredEmail({
+        value: "",
+        isValid: true,
+        invalidText: "",
+      });
+      setEnteredPassword({
+        value: "",
+        isValid: true,
+        invalidText: "",
+      });
+    }, [])
+  );
 
   return (
     <Base>

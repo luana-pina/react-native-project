@@ -12,5 +12,8 @@ export const Colors = {
   grayBlue: "#ADC0C4",
   error500: "#831d1c",
   error400: "#FF0000",
-  error100: "#FFb4bf",
+  error100: "#ffc7b6",
+  success500: "#005814",
+  success400: "#00a426",
+  success100: "#c2e9a2",
 };
