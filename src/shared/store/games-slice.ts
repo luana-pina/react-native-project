@@ -10,9 +10,7 @@ const gamesSlice = createSlice({
   },
   reducers: {
     clearData(state) {
-      state.gamesType = Array<IGame>();
       state.recentGames = [];
-      state.gameSelected = {};
     },
     getSelectedGame(state, action) {
       const { requestData, gameId } = action.payload;
