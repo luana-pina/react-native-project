@@ -15,6 +15,7 @@ const GamesActions: React.FunctionComponent<{
     (state: IRootState) => state.cardGame.card.choosen_numbers
   );
   const card = useSelector((state: IRootState) => state.cardGame.card);
+  const cartItems = useSelector((state: IRootState) => state.cart.cardGames);
   const game = useSelector((state: IRootState) => state.games.gameSelected);
   const dispatch = useDispatch();
 
@@ -64,7 +65,9 @@ const GamesActions: React.FunctionComponent<{
     } else {
       dispatch(cartActions.addCardToCart(card));
       dispatch(cardGameActions.clearCard());
-      showModal();
+      if (cartItems.length < 1) {
+        showModal();
+      }
     }
   }
 
