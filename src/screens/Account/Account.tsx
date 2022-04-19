@@ -1,22 +1,21 @@
 import { FlatList, Image, StyleSheet, View } from "react-native";
-import Base from "../../../components/Base/Base";
-import Card from "../../../components/UI/Card";
+import {
+  Base,
+  Card,
+  Input,
+  NoGames,
+  PressableFeedback,
+  Title,
+} from "../../components/";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors } from "../../shared/constants/colors";
-import Input from "../../../components/Input/Input";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
-import Title from "../../../components/UI/Title";
-import PressableFeedback from "../../../components/UI/PressableFeedback";
-import { gameCardRender } from "../../shared/utils/gameCartRender";
-import { isValidInputs } from "../../shared/utils/isValidInpus";
-import { useDispatch } from "react-redux";
 import { user } from "../../shared/providers";
 import { ICardRecentsGames } from "../../shared/interfaces";
-import NoGames from "../../../components/NoGames/NoGames";
 import { useFocusEffect } from "@react-navigation/native";
-import { showToast } from "../../shared/utils/showToast";
 import Toast from "react-native-root-toast";
+import { gameCardRender, isValidInputs, showToast } from "../../shared/utils";
 
 const Account: React.FC = () => {
   const [defaultValue, setDefaultValue] = useState({
@@ -54,7 +53,7 @@ const Account: React.FC = () => {
         textStyle: { fontWeight: "bold" },
       });
       await updateUser({ name: userName.value, email: userEmail.value })
-        .then((res) => {
+        .then((_res) => {
           Toast.hide(toast);
           showToast("User updated successfully", "success");
           setDefaultValue({ name: userName.value, email: userEmail.value });

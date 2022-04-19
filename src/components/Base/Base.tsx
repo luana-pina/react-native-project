@@ -1,5 +1,5 @@
 import React from "react";
-import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-virtualized-view";
 
 const Base: React.FC = ({ children }) => {

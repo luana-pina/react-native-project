@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import { Colors } from "../../src/shared/constants/colors";
+import { Colors } from "../../shared/constants/colors";
 import { AntDesign } from "@expo/vector-icons";
 
 const Logo: React.FC = () => {

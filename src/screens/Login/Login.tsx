@@ -1,18 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Base from "../../../components/Base/Base";
-import Input from "../../../components/Input/Input";
-import AuthLayout from "../../../components/Layout/AuthLayout";
-import PressableFeedback from "../../../components/UI/PressableFeedback";
-import AuthButton from "../../../components/UI/Butons/AuthButton";
+import {
+  AuthButton,
+  AuthLayout,
+  Base,
+  Input,
+  PressableFeedback,
+} from "../../components";
 import { Colors } from "../../shared/constants/colors";
-import { IStackScreenProps } from "../../shared/interfaces/NavigationProps";
-import { isValidInputs } from "../../shared/utils/isValidInpus";
+import { IStackScreenProps } from "../../shared/interfaces";
+import { isValidInputs, showToast } from "../../shared/utils";
 import { auth, games } from "../../shared/providers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { cartActions, gamesActions } from "../../shared/store";
 import { useDispatch } from "react-redux";
-import { showToast } from "../../shared/utils/showToast";
 import { useFocusEffect } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
 

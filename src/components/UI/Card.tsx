@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Colors } from "../../src/shared/constants/colors";
+import { Colors } from "../../shared/constants/colors";
 
 const Card: React.FC<{
   borderRadiusTopNone?: boolean;

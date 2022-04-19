@@ -1,23 +1,29 @@
 import { StyleSheet, Text, View } from "react-native";
-import Base from "../../../components/Base/Base";
-import GamesButtons from "../../../components/UI/Butons/GamesButtons/GamesButtons";
-import Title from "../../../components/UI/Title";
+import {
+  Base,
+  GamesButtons,
+  NoGames,
+  PressableFeedback,
+  Title,
+} from "../../components";
 import { AntDesign } from "@expo/vector-icons";
 import { Colors } from "../../shared/constants/colors";
-import { IDrawerScreenProps } from "../../shared/interfaces/NavigationProps";
 import { FlatList } from "react-native-gesture-handler";
 import { useCallback, useLayoutEffect, useState } from "react";
 import { cartActions, gamesActions } from "../../shared/store";
 import { useDispatch, useSelector } from "react-redux";
-import PressableFeedback from "../../../components/UI/PressableFeedback";
-import { gameCardRender } from "../../shared/utils/gameCartRender";
-import { isSelectedHandler } from "../../shared/utils/isSelectedHandler";
-import { IRootState } from "../../shared/interfaces";
-import { ICardRecentsGames } from "../../shared/interfaces/Games";
+import {
+  gameCardRender,
+  isSelectedHandler,
+  showToast,
+} from "../../shared/utils";
+import {
+  ICardRecentsGames,
+  IDrawerScreenProps,
+  IRootState,
+} from "../../shared/interfaces";
 import { games } from "../../shared/providers";
-import NoGames from "../../../components/NoGames/NoGames";
 import { useFocusEffect } from "@react-navigation/native";
-import { showToast } from "../../shared/utils/showToast";
 
 const Home: React.FC<IDrawerScreenProps> = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -51,9 +57,9 @@ const Home: React.FC<IDrawerScreenProps> = ({ navigation }) => {
     useCallback(() => {
       async function recentGames() {
         await getRecentGames()
-          .then((res) => {
-            dispatch(gamesActions.getRecentGames({ requestData: res.data }));
-            setFiltered(res.data);
+          .then(({ data }) => {
+            dispatch(gamesActions.getRecentGames({ requestData: data }));
+            setFiltered(data);
           })
           .catch((err) => {
             showToast(err.message, "error");

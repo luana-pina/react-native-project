@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useEffect } from "react";
-import { Colors } from "../../src/shared/constants/colors";
+import { Colors } from "../../shared/constants/colors";
 
 const GameTableButton: React.FunctionComponent<{
   text: string;

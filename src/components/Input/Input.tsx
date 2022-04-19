@@ -6,7 +6,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { Colors } from "../../src/shared/constants/colors";
+import { Colors } from "../../shared/constants/colors";
 
 const Input: React.FunctionComponent<{
   label: string;

@@ -1,16 +1,17 @@
 import { StyleSheet, Text, View } from "react-native";
+import {
+  AuthButton,
+  Card,
+  NoGames,
+  PressableFeedback,
+  Title,
+} from "../../components/index";
 import { FlatList } from "react-native-gesture-handler";
-import { gameCardRender } from "../../src/shared/utils/gameCartRender";
-import PressableFeedback from "../UI/PressableFeedback";
-import AuthButton from "../UI/Butons/AuthButton";
-import Card from "../UI/Card";
-import Title from "../UI/Title";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Colors } from "../../src/shared/constants/colors";
+import { Colors } from "../../shared/constants/colors";
 import { useSelector } from "react-redux";
-import { IRootState } from "../../src/shared/interfaces";
-import { convertToReal } from "../../src/shared/utils/convertToReal";
-import NoGames from "../NoGames/NoGames";
+import { IRootState } from "../../shared/interfaces";
+import { convertToReal, gameCardRender } from "../../shared/utils";
 
 const Cart: React.FC<{ onClose: Function; onSave: Function }> = ({
   onClose,

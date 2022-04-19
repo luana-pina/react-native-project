@@ -1,5 +1,5 @@
 import { StyleSheet, Text } from "react-native";
-import { Colors } from "../../src/shared/constants/colors";
+import { Colors } from "../../shared/constants/colors";
 
 const Title: React.FunctionComponent<{
   text: string;

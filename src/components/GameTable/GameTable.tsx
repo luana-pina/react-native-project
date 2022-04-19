@@ -1,9 +1,9 @@
 import { useLayoutEffect, useState } from "react";
-import { Alert, FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../src/shared/interfaces";
-import { cardGameActions, gamesActions } from "../../src/shared/store";
-import { isSelectedHandler } from "../../src/shared/utils/isSelectedHandler";
+import { IRootState } from "../../shared/interfaces";
+import { cardGameActions } from "../../shared/store";
+import { isSelectedHandler } from "../../shared/utils";
 import GameTableButton from "./GameTableButton";
 
 const GameTable: React.FunctionComponent<{}> = () => {

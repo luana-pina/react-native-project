@@ -1,6 +1,6 @@
 import { FlatList } from "react-native";
 import { useSelector } from "react-redux";
-import { IRootState } from "../../../../src/shared/interfaces";
+import { IRootState } from "../../../../shared/interfaces";
 import GameButton from "./GameButton";
 
 const GamesButtons: React.FunctionComponent<{

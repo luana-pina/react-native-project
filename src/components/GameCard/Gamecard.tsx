@@ -3,15 +3,15 @@ import {
   ICardGame,
   ICardGameAccount,
   ICardGameCart,
-} from "../../src/shared/interfaces/Games";
+  IRootState,
+} from "../../shared/interfaces/";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../../src/shared/constants/colors";
+import { Colors } from "../../shared/constants/colors";
 import { useEffect, useState } from "react";
-import { convertToReal } from "../../src/shared/utils/convertToReal";
-import PressableFeedback from "../UI/PressableFeedback";
+import { convertToReal } from "../../shared/utils/convertToReal";
+import PressableFeedback from "../../components/UI/PressableFeedback";
 import { useDispatch, useSelector } from "react-redux";
-import { cartActions } from "../../src/shared/store";
-import { IRootState } from "../../src/shared/interfaces";
+import { cartActions } from "../../shared/store/cart-slice";
 
 const GameCard: React.FunctionComponent<{
   item: ICardGame | ICardGameCart | ICardGameAccount;

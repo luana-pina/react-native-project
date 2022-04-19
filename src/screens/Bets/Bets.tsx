@@ -1,9 +1,14 @@
 import { Modal, StyleSheet, Text, View } from "react-native";
-import Base from "../../../components/Base/Base";
-import GamesButtons from "../../../components/UI/Butons/GamesButtons/GamesButtons";
-import Title from "../../../components/UI/Title";
+import {
+  Base,
+  Cart,
+  GamesActions,
+  GamesButtons,
+  GameTable,
+  PressableFeedback,
+  Title,
+} from "../../components";
 import { Colors } from "../../shared/constants/colors";
-import GameTable from "../../../components/GameTable/GameTable";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions, gamesActions } from "../../shared/store";
@@ -12,12 +17,9 @@ import {
   IDrawerScreenProps,
   IRootState,
 } from "../../shared/interfaces";
-import GamesActions from "../../../components/GamesActions/GamesActions";
 import { useLayoutEffect, useState } from "react";
-import PressableFeedback from "../../../components/UI/PressableFeedback";
-import Cart from "../../../components/Cart/Cart";
 import { cart, games } from "../../shared/providers";
-import { showToast } from "../../shared/utils/showToast";
+import { showToast } from "../../shared/utils";
 import Toast from "react-native-root-toast";
 
 const Bets: React.FC<IDrawerScreenProps> = ({ navigation }) => {

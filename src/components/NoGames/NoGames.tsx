@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import { Colors } from "../../src/shared/constants/colors";
+import { Colors } from "../../shared/constants/colors";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
 const NoGames: React.FunctionComponent = () => {
