@@ -64,11 +64,12 @@ const Input: React.FunctionComponent<{
           ]}
           autoCapitalize="none"
           autoCompleteType="off"
-          textContentType="none"
-          enablesReturnKeyAutomatically
+          textContentType="oneTimeCode"
+          autoCorrect={false}
           keyboardType={keyboardType}
           secureTextEntry={secure}
           onChangeText={(v) => setCurrentValue(v)}
+          enablesReturnKeyAutomatically
           onEndEditing={() => onUpdateValue(currentValue)}
           onFocus={() => setOnFocusStyle(true)}
           value={currentValue}
