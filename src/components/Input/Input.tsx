@@ -1,12 +1,6 @@
 import { useState } from "react";
-import {
-  KeyboardTypeOptions,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
-import { Colors } from "../../shared/constants/colors";
+import { KeyboardTypeOptions, Text, TextInput, View } from "react-native";
+import { inputStyles } from "./styles";
 
 const Input: React.FunctionComponent<{
   label: string;
@@ -38,18 +32,18 @@ const Input: React.FunctionComponent<{
   const [currentValue, setCurrentValue] = useState<string>(`${value}`);
   const [onFocusStyle, setOnFocusStyle] = useState<boolean>(false);
   return (
-    <View style={styles.container}>
+    <View style={inputStyles.container}>
       <View
         style={
           noPaddingTop
-            ? styles.inputContainer
-            : [styles.inputContainer, { paddingTop: 15 }]
+            ? inputStyles.inputContainer
+            : [inputStyles.inputContainer, { paddingTop: 15 }]
         }
       >
         <Text
           style={[
-            styles.label,
-            isInvalid && styles.labelInvalid,
+            inputStyles.label,
+            isInvalid && inputStyles.labelInvalid,
             labelSize ? { fontSize: labelSize } : {},
           ]}
         >
@@ -57,10 +51,12 @@ const Input: React.FunctionComponent<{
         </Text>
         <TextInput
           style={[
-            styles.input,
-            isInvalid && styles.inputInvalid,
+            inputStyles.input,
+            isInvalid && inputStyles.inputInvalid,
             { fontSize: inputTextSize ? inputTextSize : 16 },
-            (bottomLine || onFocusStyle) && !isInvalid && styles.bottomLine,
+            (bottomLine || onFocusStyle) &&
+              !isInvalid &&
+              inputStyles.bottomLine,
           ]}
           autoCapitalize="none"
           autoCompleteType="off"
@@ -76,50 +72,9 @@ const Input: React.FunctionComponent<{
           editable={!disabled}
         />
       </View>
-      {isInvalid && <Text style={styles.invalidText}>{invalidText}</Text>}
+      {isInvalid && <Text style={inputStyles.invalidText}>{invalidText}</Text>}
     </View>
   );
 };
 
 export default Input;
-
-const styles = StyleSheet.create({
-  inputContainer: {
-    flexDirection: "row",
-    width: "100%",
-    alignItems: "center",
-  },
-  container: {
-    paddingBottom: 15,
-    paddingHorizontal: 15,
-    width: "100%",
-    alignItems: "flex-end",
-    borderBottomColor: Colors.background600,
-    borderBottomWidth: 2,
-  },
-  label: {
-    color: Colors.gray800,
-    fontWeight: "bold",
-    marginRight: 8,
-    width: 70,
-  },
-  labelInvalid: {
-    color: Colors.error400,
-  },
-  input: {
-    flex: 1,
-    color: Colors.gray800,
-    paddingLeft: 5,
-  },
-  inputInvalid: {
-    borderBottomColor: Colors.error100,
-    borderBottomWidth: 2,
-  },
-  bottomLine: { borderBottomWidth: 2, borderBottomColor: Colors.background700 },
-  invalidText: {
-    fontSize: 12,
-    color: Colors.error100,
-    textAlign: "center",
-    width: "70%",
-  },
-});

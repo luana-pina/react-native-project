@@ -1,17 +1,18 @@
 import React from "react";
-import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
+import { KeyboardAvoidingView, Platform } from "react-native";
 import { ScrollView } from "react-native-virtualized-view";
+import { baseStyle } from "./styles";
 
 const Base: React.FC = ({ children }) => {
   return (
     <KeyboardAvoidingView
-      style={styles.keyboardContainer}
+      style={baseStyle.keyboardContainer}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      contentContainerStyle={styles.keyboardContainer}
+      contentContainerStyle={baseStyle.keyboardContainer}
     >
       <ScrollView
-        contentContainerStyle={styles.pageContainer}
-        style={styles.container}
+        contentContainerStyle={baseStyle.pageContainer}
+        style={baseStyle.container}
         showsVerticalScrollIndicator={false}
       >
         {children}
@@ -19,19 +20,5 @@ const Base: React.FC = ({ children }) => {
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  keyboardContainer: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#F7F7F7",
-  },
-  pageContainer: {
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-  },
-});
 
 export default Base;

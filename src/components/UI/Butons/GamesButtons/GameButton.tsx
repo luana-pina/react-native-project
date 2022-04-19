@@ -4,6 +4,7 @@ import { Colors } from "react-native/Libraries/NewAppScreen";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../../../shared/interfaces";
 import { IGame } from "../../../../shared/interfaces/Games";
+import { gameButtonStyle } from "./styles";
 
 const GameButton: React.FunctionComponent<{
   game: IGame;
@@ -55,7 +56,7 @@ const GameButton: React.FunctionComponent<{
   }, [options]);
 
   return (
-    <View style={[styles.buttonContainer, pressStyle.container]}>
+    <View style={[gameButtonStyle.buttonContainer, pressStyle.container]}>
       <Pressable
         onPress={() => {
           pressHandler();
@@ -63,8 +64,10 @@ const GameButton: React.FunctionComponent<{
         android_ripple={{ color: game.color }}
         style={({ pressed }) => (pressed ? { opacity: 0.5 } : {})}
       >
-        <View style={styles.container}>
-          <Text style={[styles.buttonText, pressStyle.text]}>{game.type}</Text>
+        <View style={gameButtonStyle.container}>
+          <Text style={[gameButtonStyle.buttonText, pressStyle.text]}>
+            {game.type}
+          </Text>
         </View>
       </Pressable>
     </View>
@@ -72,25 +75,3 @@ const GameButton: React.FunctionComponent<{
 };
 
 export default GameButton;
-
-const styles = StyleSheet.create({
-  container: {
-    width: 100,
-    height: 35,
-    justifyContent: "center",
-    borderRadius: 50,
-  },
-  buttonContainer: {
-    borderWidth: 3,
-    overflow: "hidden",
-    borderRadius: 50,
-    marginRight: 20,
-    marginTop: 5,
-  },
-  buttonText: {
-    fontSize: 15,
-    textAlign: "center",
-    fontStyle: "italic",
-    fontWeight: "bold",
-  },
-});

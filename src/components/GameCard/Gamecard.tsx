@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import {
   ICardGame,
   ICardGameAccount,
@@ -9,9 +9,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../shared/constants/colors";
 import { useEffect, useState } from "react";
 import { convertToReal } from "../../shared/utils/convertToReal";
-import PressableFeedback from "../../components/UI/PressableFeedback";
+import PressableFeedback from "../UI/PressableFeedback/PressableFeedback";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../../shared/store/cart-slice";
+import { gameCartStyle } from "./styles";
 
 const GameCard: React.FunctionComponent<{
   item: ICardGame | ICardGameCart | ICardGameAccount;
@@ -61,7 +62,7 @@ const GameCard: React.FunctionComponent<{
   }
 
   return (
-    <View style={styles.cardWrapper}>
+    <View style={gameCartStyle.cardWrapper}>
       {canDelete && (
         <PressableFeedback
           onPress={() => {
@@ -76,21 +77,27 @@ const GameCard: React.FunctionComponent<{
           />
         </PressableFeedback>
       )}
-      <View style={[styles.cardContent, { borderLeftColor: color }]}>
-        <Text style={styles.selectedNumbers}>
+      <View style={[gameCartStyle.cardContent, { borderLeftColor: color }]}>
+        <Text style={gameCartStyle.selectedNumbers}>
           {orderlyArray.sort((a, b) => a - b).join(", ")}
         </Text>
         <View
           style={[
-            styles.infoCardContainer,
+            gameCartStyle.infoCardContainer,
             { flexDirection: canDelete ? "row" : "column-reverse" },
             canDelete && { alignItems: "baseline" },
           ]}
         >
-          <Text style={[styles.gameName, { color: color }]}>{gameName}</Text>
+          <Text style={[gameCartStyle.gameName, { color: color }]}>
+            {gameName}
+          </Text>
 
           <Text
-            style={canDelete ? [styles.price, { marginLeft: 5 }] : styles.price}
+            style={
+              canDelete
+                ? [gameCartStyle.price, { marginLeft: 5 }]
+                : gameCartStyle.price
+            }
           >
             {canDelete
               ? `R$${convertToReal(item.price)}`
@@ -103,37 +110,3 @@ const GameCard: React.FunctionComponent<{
 };
 
 export default GameCard;
-
-const styles = StyleSheet.create({
-  cardWrapper: {
-    alignItems: "center",
-    flexDirection: "row",
-    width: "90%",
-    marginVertical: 5,
-  },
-  cardContent: {
-    paddingVertical: 5,
-    paddingLeft: 8,
-    borderLeftWidth: 4,
-    borderRadius: 4,
-    maxWidth: 300,
-  },
-  selectedNumbers: {
-    fontSize: 14,
-    fontWeight: "bold",
-    fontStyle: "italic",
-    color: Colors.gray700,
-    letterSpacing: 0,
-    marginBottom: 8,
-  },
-  infoCardContainer: {
-    flex: 1,
-  },
-  gameName: { fontWeight: "bold", fontStyle: "italic" },
-  price: {
-    fontSize: 12,
-    fontStyle: "italic",
-    color: Colors.gray600,
-    letterSpacing: 0,
-  },
-});

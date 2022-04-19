@@ -10,12 +10,12 @@ import AuthLayout from "./Layout/AuthLayout";
 import NoGames from "./NoGames/NoGames";
 import GameButton from "./UI/Butons/GamesButtons/GameButton";
 import GamesButtons from "./UI/Butons/GamesButtons/GamesButtons";
-import ActionsButton from "./UI/Butons/ActionsButton";
-import AuthButton from "./UI/Butons/AuthButton";
-import Card from "./UI/Card";
+import ActionsButton from "./UI/Butons/ActionsButtons/ActionsButton";
+import AuthButton from "./UI/Butons/AuthButton/AuthButton";
+import Card from "./UI/Card/Card";
 import LogoutItem from "./UI/LogoutItem";
-import PressableFeedback from "./UI/PressableFeedback";
-import Title from "./UI/Title";
+import PressableFeedback from "./UI/PressableFeedback/PressableFeedback";
+import Title from "./UI/Titile/Title";
 
 export {
   ActionsButton,

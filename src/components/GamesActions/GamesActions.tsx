@@ -1,10 +1,11 @@
 import { Alert, StyleSheet, View } from "react-native";
-import ActionsButton from "../UI/Butons/ActionsButton";
+import ActionsButton from "../UI/Butons/ActionsButtons/ActionsButton";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../shared/interfaces";
 import { cardGameActions, cartActions } from "../../shared/store";
+import { gameActionsStyle } from "./styles";
 
 const GamesActions: React.FunctionComponent<{
   range: number;
@@ -72,7 +73,7 @@ const GamesActions: React.FunctionComponent<{
   }
 
   return (
-    <View style={styles.buttonsContent}>
+    <View style={gameActionsStyle.buttonsContent}>
       <ActionsButton text="Complete game" onPress={completeGame} />
       <ActionsButton text="Clear game" onPress={clearGame} />
       <ActionsButton text="Add to cart" filledBackground onPress={addToCart}>
@@ -87,14 +88,3 @@ const GamesActions: React.FunctionComponent<{
 };
 
 export default GamesActions;
-
-const styles = StyleSheet.create({
-  buttonsContent: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-    paddingTop: 20,
-    paddingBottom: 40,
-    justifyContent: "space-between",
-  },
-});

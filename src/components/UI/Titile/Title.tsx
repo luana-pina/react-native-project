@@ -1,5 +1,6 @@
-import { StyleSheet, Text } from "react-native";
-import { Colors } from "../../shared/constants/colors";
+import { Text } from "react-native";
+import { Colors } from "../../../shared/constants/colors";
+import { titleStyles } from "./styles";
 
 const Title: React.FunctionComponent<{
   text: string;
@@ -10,7 +11,7 @@ const Title: React.FunctionComponent<{
   return (
     <Text
       style={[
-        styles.title,
+        titleStyles.title,
         { fontSize: size ? size : 25 },
         style,
         { color: color ? color : Colors.gray800 },
@@ -22,10 +23,3 @@ const Title: React.FunctionComponent<{
 };
 
 export default Title;
-
-const styles = StyleSheet.create({
-  title: {
-    fontStyle: "italic",
-    fontWeight: "bold",
-  },
-});

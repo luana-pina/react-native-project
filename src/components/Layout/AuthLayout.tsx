@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { Colors } from "../../shared/constants/colors";
 import { AntDesign } from "@expo/vector-icons";
-import Card from "../UI/Card";
-import Title from "../UI/Title";
-import PressableFeedback from "../UI/PressableFeedback";
+import Card from "../UI/Card/Card";
+import Title from "../UI/Titile/Title";
+import PressableFeedback from "../UI/PressableFeedback/PressableFeedback";
+import { layoutStyles } from "./styles";
 
 const AuthLayout: React.FunctionComponent<{
   title: string;
@@ -11,26 +12,30 @@ const AuthLayout: React.FunctionComponent<{
   onPress: () => void;
 }> = ({ title, noBack, children, onPress }) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Text style={[styles.upperText, styles.font]}>The Greatest App</Text>
-        <View style={styles.middleTextContainer}>
-          <Text style={[styles.middleText, styles.font]}>for</Text>
+    <View style={layoutStyles.container}>
+      <View style={layoutStyles.logoContainer}>
+        <Text style={[layoutStyles.upperText, layoutStyles.font]}>
+          The Greatest App
+        </Text>
+        <View style={layoutStyles.middleTextContainer}>
+          <Text style={[layoutStyles.middleText, layoutStyles.font]}>for</Text>
         </View>
-        <Text style={[styles.bottomText, styles.font]}>LOTTERY</Text>
+        <Text style={[layoutStyles.bottomText, layoutStyles.font]}>
+          LOTTERY
+        </Text>
       </View>
-      <View style={styles.bottomContainer}>
+      <View style={layoutStyles.bottomContainer}>
         <Title text={title} />
-        <View style={styles.pageContainer}>
+        <View style={layoutStyles.pageContainer}>
           <Card>{children}</Card>
         </View>
         <PressableFeedback onPress={onPress}>
-          <View style={styles.buttonContainer}>
+          <View style={layoutStyles.buttonContainer}>
             {!noBack && (
               <AntDesign name="arrowleft" size={28} color={Colors.gray800} />
             )}
             <Title
-              style={styles.buttonText}
+              style={layoutStyles.buttonText}
               text={!noBack ? "Back" : "Sign Up"}
             />
             {noBack && (
@@ -44,55 +49,3 @@ const AuthLayout: React.FunctionComponent<{
 };
 
 export default AuthLayout;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: "20%",
-  },
-  logoContainer: {
-    alignItems: "center",
-    paddingBottom: "15%",
-  },
-  bottomContainer: {
-    alignItems: "center",
-  },
-  pageContainer: {
-    alignItems: "center",
-  },
-  font: {
-    fontStyle: "italic",
-    fontWeight: "bold",
-  },
-  upperText: {
-    textAlign: "center",
-    fontSize: 40,
-    maxWidth: 240,
-    color: Colors.gray800,
-  },
-  bottomText: {
-    fontSize: 45,
-    color: Colors.gray800,
-  },
-  middleTextContainer: {
-    backgroundColor: Colors.green400,
-    borderRadius: 20,
-    paddingVertical: 5,
-    marginVertical: 10,
-    width: 90,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  middleText: {
-    textAlign: "center",
-    fontSize: 16,
-    color: Colors.white,
-  },
-  buttonText: {
-    paddingHorizontal: 5,
-  },
-});

@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { Colors } from "../../../shared/constants/colors";
-import PressableFeedback from "../PressableFeedback";
+import { Colors } from "../../../../shared/constants/colors";
+import PressableFeedback from "../../PressableFeedback/PressableFeedback";
+import { authButtonStyles } from "./styles";
 
 const AuthButton: React.FunctionComponent<{
   text: string;
@@ -10,10 +11,10 @@ const AuthButton: React.FunctionComponent<{
 }> = ({ text, onPress, color }) => {
   return (
     <PressableFeedback onPress={onPress}>
-      <View style={styles.buttonContainer}>
+      <View style={authButtonStyles.buttonContainer}>
         <Text
           style={[
-            styles.buttonText,
+            authButtonStyles.buttonText,
             { color: color ? color : Colors.green400 },
           ]}
         >
@@ -30,19 +31,3 @@ const AuthButton: React.FunctionComponent<{
 };
 
 export default AuthButton;
-
-const styles = StyleSheet.create({
-  buttonContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  buttonText: {
-    fontSize: 25,
-    paddingHorizontal: 5,
-    fontStyle: "italic",
-    fontWeight: "bold",
-  },
-  pressed: { opacity: 0.5 },
-});

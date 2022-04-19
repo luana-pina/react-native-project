@@ -1,4 +1,4 @@
-import { FlatList, Image, StyleSheet, View } from "react-native";
+import { FlatList, Image, View } from "react-native";
 import {
   Base,
   Card,
@@ -16,6 +16,7 @@ import { ICardRecentsGames } from "../../shared/interfaces";
 import { useFocusEffect } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
 import { gameCardRender, isValidInputs, showToast } from "../../shared/utils";
+import { AccountStyles } from "./styles";
 
 const Account: React.FC = () => {
   const [defaultValue, setDefaultValue] = useState({
@@ -128,7 +129,7 @@ const Account: React.FC = () => {
   return (
     <Base>
       <Card>
-        <View style={styles.editIconContainer}>
+        <View style={AccountStyles.editIconContainer}>
           {isdisabled ? (
             <PressableFeedback onPress={() => setIsdisabled(false)}>
               <MaterialCommunityIcons
@@ -157,13 +158,13 @@ const Account: React.FC = () => {
             </>
           )}
         </View>
-        <View style={styles.imageContainer}>
+        <View style={AccountStyles.imageContainer}>
           <Image
             source={require("../../../assets/user.png")}
-            style={styles.userImage}
+            style={AccountStyles.userImage}
           />
         </View>
-        <View style={styles.inputsContainer}>
+        <View style={AccountStyles.inputsContainer}>
           <Input
             label="Name:"
             value={userName.value}
@@ -198,9 +199,9 @@ const Account: React.FC = () => {
             bottomLine={!isdisabled}
           />
         </View>
-        <Title text="Recent Games:" size={18} style={styles.betsTitle} />
+        <Title text="Recent Games:" size={18} style={AccountStyles.betsTitle} />
         {recentGames.length > 0 ? (
-          <ScrollView style={styles.betsContainer}>
+          <ScrollView style={AccountStyles.betsContainer}>
             <FlatList
               listKey="bets"
               data={recentGames}
@@ -217,30 +218,3 @@ const Account: React.FC = () => {
 };
 
 export default Account;
-
-const styles = StyleSheet.create({
-  imageContainer: { width: 150, height: 150, overflow: "hidden" },
-  editIconContainer: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    paddingHorizontal: 10,
-  },
-  userImage: {
-    width: "100%",
-    height: "100%",
-  },
-  inputsContainer: {
-    paddingTop: 15,
-    width: "100%",
-  },
-  betsContainer: {
-    marginTop: 10,
-    maxHeight: 250,
-  },
-  betsTitle: {
-    width: "90.5%",
-    marginTop: 20,
-  },
-});

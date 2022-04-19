@@ -1,10 +1,11 @@
 import { useLayoutEffect, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../shared/interfaces";
 import { cardGameActions } from "../../shared/store";
 import { isSelectedHandler } from "../../shared/utils";
 import GameTableButton from "./GameTableButton";
+import { gameTableStyle } from "./styles";
 
 const GameTable: React.FunctionComponent<{}> = () => {
   const [rangeArrayNumbers, setRangeArrayNumbers] = useState<
@@ -53,7 +54,7 @@ const GameTable: React.FunctionComponent<{}> = () => {
   }, []);
 
   return (
-    <View style={styles.tableConatiner}>
+    <View style={gameTableStyle.tableConatiner}>
       <FlatList
         listKey="gameTable"
         data={rangeArrayNumbers}
@@ -66,11 +67,3 @@ const GameTable: React.FunctionComponent<{}> = () => {
 };
 
 export default GameTable;
-
-const styles = StyleSheet.create({
-  tableConatiner: {
-    width: "100%",
-    alignItems: "center",
-    paddingTop: 20,
-  },
-});
