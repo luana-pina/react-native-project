@@ -30,6 +30,7 @@ import { useEffect, useState } from "react";
 import { IRootState } from "./src/shared/interfaces";
 import AppLoading from "expo-app-loading";
 import { RootSiblingParent } from "react-native-root-siblings";
+import { AppStyle } from "./AppStyle";
 
 function Root() {
   const [isLoading, setIsLoading] = useState(true);
@@ -53,16 +54,16 @@ function Root() {
     return (
       <Drawer.Navigator
         screenOptions={{
-          headerStyle: styles.header,
+          headerStyle: AppStyle.header,
           headerTintColor: Colors.green400,
           headerTitleAlign: "left",
           headerTitleStyle: { color: Colors.gray800 },
           headerRight: () => <Logo />,
-          headerRightContainerStyle: styles.rightHeaderConainer,
+          headerRightContainerStyle: AppStyle.rightHeaderConainer,
           drawerActiveTintColor: Colors.green500,
         }}
         drawerContent={(props) => (
-          <View style={styles.drawerConainer}>
+          <View style={AppStyle.drawerConainer}>
             <View>
               <DrawerItemList {...props} />
             </View>
@@ -166,22 +167,3 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: Colors.background400,
-    height: 110,
-  },
-  rightHeaderConainer: {
-    flex: 1,
-    height: "100%",
-    paddingHorizontal: 30,
-    justifyContent: "center",
-  },
-  drawerConainer: {
-    flex: 1,
-    marginTop: 70,
-    marginBottom: 30,
-    height: "100%",
-    justifyContent: "space-between",
-  },
-});

@@ -1,12 +1,13 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import Toast from "react-native-root-toast";
 import { AuthButton, AuthLayout, Base, Input } from "../../components";
 import { Colors } from "../../shared/constants/colors";
 import { IStackScreenProps } from "../../shared/interfaces";
 import { auth } from "../../shared/providers";
 import { isValidInputs, showToast } from "../../shared/utils";
+import { RegisterStyles } from "./styles";
 
 const Register: React.FunctionComponent<IStackScreenProps> = ({
   navigation,
@@ -129,7 +130,7 @@ const Register: React.FunctionComponent<IStackScreenProps> = ({
           navigation.goBack();
         }}
       >
-        <View style={styles.container}>
+        <View style={RegisterStyles.container}>
           <Input
             label="Name"
             value={enteredName.value}
@@ -181,9 +182,3 @@ const Register: React.FunctionComponent<IStackScreenProps> = ({
 
 export default Register;
 
-const styles = StyleSheet.create({
-  container: {
-    width: 300,
-    alignItems: "center",
-  },
-});

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../../../shared/interfaces";

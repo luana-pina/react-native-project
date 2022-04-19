@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { , Text, View } from "react-native";
 import {
   Base,
   GamesButtons,
@@ -24,6 +24,7 @@ import {
 } from "../../shared/interfaces";
 import { games } from "../../shared/providers";
 import { useFocusEffect } from "@react-navigation/native";
+import { HomeStyle } from "./styles";
 
 const Home: React.FC<IDrawerScreenProps> = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -97,7 +98,7 @@ const Home: React.FC<IDrawerScreenProps> = ({ navigation }) => {
 
   return (
     <Base>
-      <View style={styles.titleContainer}>
+      <View style={HomeStyle.titleContainer}>
         <Title text="RECENT GAMES" size={22} />
         <PressableFeedback onPress={() => navigation.navigate("Bets")}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -111,9 +112,9 @@ const Home: React.FC<IDrawerScreenProps> = ({ navigation }) => {
           </View>
         </PressableFeedback>
       </View>
-      <Text style={styles.filtersTitle}>Filters</Text>
+      <Text style={HomeStyle.filtersTitle}>Filters</Text>
       <GamesButtons onPress={onSelectFilter} options={options} />
-      <View style={styles.betsContainer}>
+      <View style={HomeStyle.betsContainer}>
         {filtered?.length > 0 ? (
           <FlatList
             listKey="bets"
@@ -130,20 +131,3 @@ const Home: React.FC<IDrawerScreenProps> = ({ navigation }) => {
 };
 
 export default Home;
-
-const styles = StyleSheet.create({
-  filtersTitle: {
-    color: Colors.gray600,
-    marginTop: 20,
-  },
-  titleContainer: {
-    marginTop: 10,
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-between",
-  },
-  betsContainer: {
-    paddingHorizontal: 10,
-    paddingTop: 30,
-  },
-});

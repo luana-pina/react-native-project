@@ -1,12 +1,13 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import Toast from "react-native-root-toast";
 import { AuthButton, AuthLayout, Base, Input } from "../../components";
 import { Colors } from "../../shared/constants/colors";
 import { IStackScreenProps } from "../../shared/interfaces/NavigationProps";
 import { auth } from "../../shared/providers";
 import { isValidInputs, showToast } from "../../shared/utils";
+import { ResetPasswordStyle } from "./styles";
 
 const ResetPassword: React.FunctionComponent<IStackScreenProps> = ({
   navigation,
@@ -78,7 +79,7 @@ const ResetPassword: React.FunctionComponent<IStackScreenProps> = ({
           navigation.goBack();
         }}
       >
-        <View style={styles.container}>
+        <View style={ResetPasswordStyle.container}>
           <Input
             label="Email"
             value={enteredEmail.value}
@@ -102,10 +103,3 @@ const ResetPassword: React.FunctionComponent<IStackScreenProps> = ({
 };
 
 export default ResetPassword;
-
-const styles = StyleSheet.create({
-  container: {
-    width: 300,
-    alignItems: "center",
-  },
-});

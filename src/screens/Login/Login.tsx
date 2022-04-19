@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import {
   AuthButton,
   AuthLayout,
@@ -16,6 +16,7 @@ import { cartActions, gamesActions } from "../../shared/store";
 import { useDispatch } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
+import { LoginStyles } from "./styles";
 
 const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
   const { login } = auth();
@@ -137,7 +138,7 @@ const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
         }}
         noBack={true}
       >
-        <View style={styles.container}>
+        <View style={LoginStyles.container}>
           <Input
             label="Email"
             value={enteredEmail.value}
@@ -167,13 +168,13 @@ const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
               });
             }}
           />
-          <View style={styles.forgotContainer}>
+          <View style={LoginStyles.forgotContainer}>
             <PressableFeedback
               onPress={() => {
                 navigation.navigate("ResetPassword");
               }}
             >
-              <Text style={styles.forgotText}>I forgot my password</Text>
+              <Text style={LoginStyles.forgotText}>I forgot my password</Text>
             </PressableFeedback>
           </View>
           <AuthButton text="Log In" onPress={loginHandler} />
@@ -185,21 +186,3 @@ const Login: React.FunctionComponent<IStackScreenProps> = ({ navigation }) => {
 
 export default Login;
 
-const styles = StyleSheet.create({
-  container: {
-    width: 300,
-    alignItems: "center",
-  },
-  forgotContainer: {
-    width: "100%",
-    alignItems: "flex-end",
-    paddingHorizontal: 15,
-    paddingTop: 20,
-    paddingBottom: 5,
-  },
-  forgotText: {
-    fontSize: 10,
-    color: Colors.gray600,
-    fontStyle: "italic",
-  },
-});

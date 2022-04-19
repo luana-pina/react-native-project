@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, View } from "react-native";
 import ActionsButton from "../UI/Butons/ActionsButtons/ActionsButton";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors } from "react-native/Libraries/NewAppScreen";
