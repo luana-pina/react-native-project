@@ -41,69 +41,76 @@ function Root() {
 
   const DrawerNavigation: React.FunctionComponent<IStackScreenProps> = ({
     navigation,
-  }) => (
-    <Drawer.Navigator
-      screenOptions={{
-        headerStyle: styles.header,
-        headerTintColor: Colors.green400,
-        headerTitleAlign: "left",
-        headerTitleStyle: { color: Colors.gray800 },
-        headerRight: () => <Logo />,
-        headerRightContainerStyle: styles.rightHeaderConainer,
-        drawerActiveTintColor: Colors.green500,
-      }}
-      drawerContent={(props) => (
-        <View style={styles.drawerConainer}>
-          <View>
-            <DrawerItemList {...props} />
+  }) => {
+    async function logout() {
+      navigation.navigate("Login");
+      await AsyncStorage.removeItem("token");
+      dispatch(loginActions.isLoginHandler());
+      dispatch(loginActions.clearToken());
+      dispatch(cartActions.clearCart());
+      dispatch(gamesActions.clearData());
+    }
+
+    return (
+      <Drawer.Navigator
+        screenOptions={{
+          headerStyle: styles.header,
+          headerTintColor: Colors.green400,
+          headerTitleAlign: "left",
+          headerTitleStyle: { color: Colors.gray800 },
+          headerRight: () => <Logo />,
+          headerRightContainerStyle: styles.rightHeaderConainer,
+          drawerActiveTintColor: Colors.green500,
+        }}
+        drawerContent={(props) => (
+          <View style={styles.drawerConainer}>
+            <View>
+              <DrawerItemList {...props} />
+            </View>
+            <LogoutItem onPress={logout} />
           </View>
-          <LogoutItem
-            onPress={() => {
-              AsyncStorage.removeItem("token");
-              navigation.navigate("Login");
-              dispatch(gamesActions.clearData());
-              dispatch(cartActions.clearCart());
-              dispatch(loginActions.isLoginHandler());
-            }}
-          />
-        </View>
-      )}
-    >
-      <Drawer.Screen
-        name="Home"
-        component={Home}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <SimpleLineIcons name="home" size={size} color={color} />
-          ),
-          drawerLabelStyle: { fontWeight: "bold", fontSize: 16 },
-          drawerStyle: { paddingVertical: 30 },
-        }}
-      />
-      <Drawer.Screen
-        name="Bets"
-        component={Bets}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <SimpleLineIcons name="game-controller" size={size} color={color} />
-          ),
-          drawerLabelStyle: { fontWeight: "bold", fontSize: 16 },
-          drawerStyle: { paddingVertical: 30 },
-        }}
-      />
-      <Drawer.Screen
-        name="Account"
-        component={Account}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <SimpleLineIcons name="user" size={size} color={color} />
-          ),
-          drawerLabelStyle: { fontWeight: "bold", fontSize: 16 },
-          drawerStyle: { paddingVertical: 30 },
-        }}
-      />
-    </Drawer.Navigator>
-  );
+        )}
+      >
+        <Drawer.Screen
+          name="Home"
+          component={Home}
+          options={{
+            drawerIcon: ({ color, size }) => (
+              <SimpleLineIcons name="home" size={size} color={color} />
+            ),
+            drawerLabelStyle: { fontWeight: "bold", fontSize: 16 },
+            drawerStyle: { paddingVertical: 30 },
+          }}
+        />
+        <Drawer.Screen
+          name="Bets"
+          component={Bets}
+          options={{
+            drawerIcon: ({ color, size }) => (
+              <SimpleLineIcons
+                name="game-controller"
+                size={size}
+                color={color}
+              />
+            ),
+            drawerLabelStyle: { fontWeight: "bold", fontSize: 16 },
+            drawerStyle: { paddingVertical: 30 },
+          }}
+        />
+        <Drawer.Screen
+          name="Account"
+          component={Account}
+          options={{
+            drawerIcon: ({ color, size }) => (
+              <SimpleLineIcons name="user" size={size} color={color} />
+            ),
+            drawerLabelStyle: { fontWeight: "bold", fontSize: 16 },
+            drawerStyle: { paddingVertical: 30 },
+          }}
+        />
+      </Drawer.Navigator>
+    );
+  };
 
   useEffect(() => {
     async function getToken() {

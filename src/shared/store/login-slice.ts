@@ -17,6 +17,9 @@ const loginSlice = createSlice({
       const { token } = action.payload;
       state.token = token;
     },
+    clearToken(state) {
+      state.token = undefined;
+    },
   },
 });
 
