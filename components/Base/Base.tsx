@@ -12,6 +12,7 @@ const Base: React.FC = ({ children }) => {
       <ScrollView
         contentContainerStyle={styles.pageContainer}
         style={styles.container}
+        showsVerticalScrollIndicator={false}
       >
         {children}
       </ScrollView>
