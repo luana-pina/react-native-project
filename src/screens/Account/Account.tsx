@@ -6,16 +6,16 @@ import {
   NoGames,
   PressableFeedback,
   Title,
-} from "../../components/";
+} from "@components/index";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Colors } from "../../shared/constants/colors";
+import { Colors } from "@constants/colors";
 import { useCallback, useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
-import { user } from "../../shared/providers";
-import { ICardRecentsGames } from "../../shared/interfaces";
+import { user } from "@providers/index";
+import { ICardRecentsGames } from "@interfaces/index";
 import { useFocusEffect } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
-import { gameCardRender, isValidInputs, showToast } from "../../shared/utils";
+import { gameCardRender, isValidInputs, showToast } from "@utils/index";
 import { AccountStyles } from "./styles";
 
 const Account: React.FC = () => {

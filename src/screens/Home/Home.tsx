@@ -1,28 +1,28 @@
-import { , Text, View } from "react-native";
+import { Text, View } from "react-native";
 import {
   Base,
   GamesButtons,
   NoGames,
   PressableFeedback,
   Title,
-} from "../../components";
+} from "@components/index";
 import { AntDesign } from "@expo/vector-icons";
-import { Colors } from "../../shared/constants/colors";
+import { Colors } from "@constants/colors";
 import { FlatList } from "react-native-gesture-handler";
 import { useCallback, useLayoutEffect, useState } from "react";
-import { cartActions, gamesActions } from "../../shared/store";
+import { cartActions, gamesActions } from "@store/index";
 import { useDispatch, useSelector } from "react-redux";
 import {
   gameCardRender,
   isSelectedHandler,
   showToast,
-} from "../../shared/utils";
+} from "@utils/index";
 import {
   ICardRecentsGames,
   IDrawerScreenProps,
   IRootState,
-} from "../../shared/interfaces";
-import { games } from "../../shared/providers";
+} from "@interfaces/index";
+import { games } from "@providers/index";
 import { useFocusEffect } from "@react-navigation/native";
 import { HomeStyle } from "./styles";
 

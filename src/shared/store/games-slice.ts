@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IGame, ICardRecentsGames } from "../interfaces";
+import { IGame, ICardRecentsGames } from "@interfaces/index";
 
 const gamesSlice = createSlice({
   name: "games",

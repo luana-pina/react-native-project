@@ -7,19 +7,19 @@ import {
   GameTable,
   PressableFeedback,
   Title,
-} from "../../components";
-import { Colors } from "../../shared/constants/colors";
+} from "@components/index";
+import { Colors } from "@constants/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { cartActions, gamesActions } from "../../shared/store";
+import { cartActions, gamesActions } from "@store/index";
 import {
   ICartGamesBody,
   IDrawerScreenProps,
   IRootState,
-} from "../../shared/interfaces";
+} from "@interfaces/index";
 import { useLayoutEffect, useState } from "react";
-import { cart, games } from "../../shared/providers";
-import { showToast } from "../../shared/utils";
+import { cart, games } from "@providers/index";
+import { showToast } from "@utils/index";
 import Toast from "react-native-root-toast";
 import { BetsStyle } from "./styles";
 

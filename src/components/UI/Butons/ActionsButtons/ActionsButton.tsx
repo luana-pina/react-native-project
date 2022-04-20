@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import { Colors } from "../../../../shared/constants/colors";
+import { Colors } from "@constants/colors";
 import React from "react";
 import PressableFeedback from "../../PressableFeedback/PressableFeedback";
 import { actionsButtonsStyle } from "./styles";

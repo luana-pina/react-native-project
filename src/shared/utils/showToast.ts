@@ -1,5 +1,5 @@
 import Toast from "react-native-root-toast";
-import { Colors } from "../constants/colors";
+import { Colors } from "@constants/colors";
 
 export const showToast = (message: string, type: "success" | "error") => {
   let colors: { background: string; text: string };

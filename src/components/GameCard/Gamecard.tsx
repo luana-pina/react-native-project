@@ -4,14 +4,14 @@ import {
   ICardGameAccount,
   ICardGameCart,
   IRootState,
-} from "../../shared/interfaces/";
+} from "@interfaces/index";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../../shared/constants/colors";
+import { Colors } from "@constants/colors";
 import { useEffect, useState } from "react";
-import { convertToReal } from "../../shared/utils/convertToReal";
+import { convertToReal } from "@utils/index";
 import PressableFeedback from "../UI/PressableFeedback/PressableFeedback";
 import { useDispatch, useSelector } from "react-redux";
-import { cartActions } from "../../shared/store/cart-slice";
+import { cartActions } from "@store/index";
 import { gameCartStyle } from "./styles";
 
 const GameCard: React.FunctionComponent<{

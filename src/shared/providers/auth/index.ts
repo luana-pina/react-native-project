@@ -1,4 +1,4 @@
-import { IBodyLogin, IBodyRegister } from "../../interfaces/";
+import { IBodyLogin, IBodyRegister } from "@interfaces/index";
 import instance from "../axios.config";
 
 const auth = () => {

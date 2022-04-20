@@ -1,4 +1,4 @@
-import GameCard from "../../components/GameCard/Gamecard";
+import GameCard from "@components/GameCard/Gamecard";
 import { convertDate } from "./convertData";
 import { stringToArray } from "./stringToArray";
 

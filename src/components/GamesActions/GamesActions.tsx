@@ -3,8 +3,8 @@ import ActionsButton from "../UI/Butons/ActionsButtons/ActionsButton";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../shared/interfaces";
-import { cardGameActions, cartActions } from "../../shared/store";
+import { IRootState } from "@interfaces/index";
+import { cardGameActions, cartActions } from "@store/index";
 import { gameActionsStyle } from "./styles";
 
 const GamesActions: React.FunctionComponent<{

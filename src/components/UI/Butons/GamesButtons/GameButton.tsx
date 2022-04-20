@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { useSelector } from "react-redux";
-import { IRootState } from "../../../../shared/interfaces";
-import { IGame } from "../../../../shared/interfaces/Games";
+import { IRootState, IGame } from "@interfaces/index";
 import { gameButtonStyle } from "./styles";
 
 const GameButton: React.FunctionComponent<{

@@ -1,5 +1,5 @@
 import { Text } from "react-native";
-import { Colors } from "../../../shared/constants/colors";
+import { Colors } from "@constants/colors";
 import { titleStyles } from "./styles";
 
 const Title: React.FunctionComponent<{

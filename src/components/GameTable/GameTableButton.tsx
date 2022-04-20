@@ -1,6 +1,6 @@
 import { Pressable, Text, View } from "react-native";
 import React from "react";
-import { Colors } from "../../shared/constants/colors";
+import { Colors } from "@constants/colors";
 import { gameTableStyle } from "./styles";
 
 const GameTableButton: React.FunctionComponent<{

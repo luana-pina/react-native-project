@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { Colors } from "../../../../shared/constants/colors";
+import { Colors } from "@constants/colors";
 import PressableFeedback from "../../PressableFeedback/PressableFeedback";
 import { authButtonStyles } from "./styles";
 

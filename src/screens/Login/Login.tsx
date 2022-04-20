@@ -6,13 +6,13 @@ import {
   Base,
   Input,
   PressableFeedback,
-} from "../../components";
-import { Colors } from "../../shared/constants/colors";
-import { IStackScreenProps } from "../../shared/interfaces";
-import { isValidInputs, showToast } from "../../shared/utils";
-import { auth, games } from "../../shared/providers";
+} from "@components/index";
+import { Colors } from "@constants/colors";
+import { IStackScreenProps } from "@interfaces/index";
+import { isValidInputs, showToast } from "@utils/index";
+import { auth, games } from "@providers/index";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { cartActions, gamesActions } from "../../shared/store";
+import { cartActions, gamesActions } from "@store/index";
 import { useDispatch } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 import Toast from "react-native-root-toast";

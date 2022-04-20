@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import { Colors } from "../../shared/constants/colors";
+import { Colors } from "@constants/colors";
 import { AntDesign } from "@expo/vector-icons";
 import Card from "../UI/Card/Card";
 import Title from "../UI/Titile/Title";

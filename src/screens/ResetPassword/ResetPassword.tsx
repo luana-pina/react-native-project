@@ -2,11 +2,11 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import { View } from "react-native";
 import Toast from "react-native-root-toast";
-import { AuthButton, AuthLayout, Base, Input } from "../../components";
-import { Colors } from "../../shared/constants/colors";
-import { IStackScreenProps } from "../../shared/interfaces/NavigationProps";
-import { auth } from "../../shared/providers";
-import { isValidInputs, showToast } from "../../shared/utils";
+import { AuthButton, AuthLayout, Base, Input } from "@components/index";
+import { Colors } from "@constants/colors";
+import { IStackScreenProps } from "@interfaces/index";
+import { auth } from "@providers/index";
+import { isValidInputs, showToast } from "@utils/index";
 import { ResetPasswordStyle } from "./styles";
 
 const ResetPassword: React.FunctionComponent<IStackScreenProps> = ({

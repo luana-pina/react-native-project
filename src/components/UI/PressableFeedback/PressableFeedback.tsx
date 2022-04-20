@@ -1,5 +1,5 @@
 import { Pressable } from "react-native";
-import { Colors } from "../../../shared/constants/colors";
+import { Colors } from "@constants/colors";
 import { pressableStyle } from "./styles";
 
 const PressableFeedback: React.FC<{ onPress: () => void; color?: string }> = ({

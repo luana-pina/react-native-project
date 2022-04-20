@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Colors } from "../../../shared/constants/colors";
+import { Colors } from "@constants/colors";
 import { cardStyles } from "./styles";
 
 const Card: React.FC<{

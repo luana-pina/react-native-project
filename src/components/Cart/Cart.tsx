@@ -5,13 +5,13 @@ import {
   NoGames,
   PressableFeedback,
   Title,
-} from "../../components/index";
+} from "@components/index";
 import { FlatList } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Colors } from "../../shared/constants/colors";
+import { Colors } from "@constants/colors";
 import { useSelector } from "react-redux";
-import { IRootState } from "../../shared/interfaces";
-import { convertToReal, gameCardRender } from "../../shared/utils";
+import { IRootState } from "@interfaces/index";
+import { convertToReal, gameCardRender } from "@utils/index";
 import { cartStyle } from "./styles";
 
 const Cart: React.FC<{ onClose: Function; onSave: Function }> = ({

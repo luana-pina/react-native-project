@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Alert } from "react-native";
-import { isSelectedHandler } from "../utils";
+import { isSelectedHandler } from "@utils/index";
 
 const cardGameSlice = createSlice({
   name: "cardGame",

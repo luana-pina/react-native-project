@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import { Colors } from "../../shared/constants/colors";
+import { Colors } from "@constants/colors";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { noGamesStyle } from "./styles";
 
