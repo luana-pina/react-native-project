@@ -8,10 +8,10 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@constants/colors";
 import { useEffect, useState } from "react";
-import { convertToReal } from "@utils/index";
+import { convertToReal } from "@utils/convertToReal";
 import PressableFeedback from "../UI/PressableFeedback/PressableFeedback";
 import { useDispatch, useSelector } from "react-redux";
-import { cartActions } from "@store/index";
+import { cartActions } from "@store/cart-slice";
 import { gameCartStyle } from "./styles";
 
 const GameCard: React.FunctionComponent<{
@@ -39,8 +39,8 @@ const GameCard: React.FunctionComponent<{
 
   function onDelete(id: number) {
     Alert.alert(
-      "Are you sure?",
-      "Once you delete a game, there is no going back. Please be certain.",
+      `Do you want delete this game?`,
+      `${gameName}: ${orderlyArray.sort((a, b) => a - b).join(", ")}`,
       [
         {
           text: "Cancel",
@@ -52,7 +52,7 @@ const GameCard: React.FunctionComponent<{
           onPress: () => {
             dispatch(cartActions.removeCardToCart({ cardId: id }));
           },
-          style: "default",
+          style: "destructive",
         },
       ],
       {
